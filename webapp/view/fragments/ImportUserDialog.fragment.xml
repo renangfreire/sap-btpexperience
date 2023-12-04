@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="importUsersDialog"
+        title="Importação de usuários"
+    >
+        <content>
+            <VBox>
+                <Text text="Hello World!" />
+                <Button
+                    text="Ok"
+                    press="oncloseDialog"
+                />
+            </VBox>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

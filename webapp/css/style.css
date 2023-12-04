@@ -1,0 +1,10 @@
+/* Enter your custom styles here */
+
+.sap-xp-StandardButton > span{
+    background-color: #EAECEE;
+    color: #1D2D3E;
+}
+.sap-xp-StandardButton:hover > span{
+    background-color: #EAECEE;
+    color: #1D2D3E;
+}
