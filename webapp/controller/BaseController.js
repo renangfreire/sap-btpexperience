@@ -7,15 +7,12 @@ sap.ui.define(
     "use strict";
 
     return BaseController.extend("com.lab2dev.finalprojectprodev.controller.BaseController", {
-      DialogTypes: ["DeleteUser", "ImportUser"],
       onOpenImportDialog(oEvent) {
         const sDialog = this.DialogTypes.find(el => oEvent.getSource().getId().includes(el))
-
-        debugger
-
+      
         if (!this[sDialog]) {
           this[sDialog] = Fragment.load({
-            name: `com.lab2dev.finalprojectprodev.view.fragments.${sDialog}Dialog`,
+            name: `com.lab2dev.finalprojectprodev.view.fragments.${sDialog}`,
             controller: this
           })
         }
@@ -25,8 +22,8 @@ sap.ui.define(
           oDialog.open()
         })
       },
-      oncloseDialog: function(oEvent){
-        const sDialog = this.DialogTypes.find(el => oEvent.getSource().getId().includes(el))
+      onCloseDialog: function(){
+        const sDialog = this.getView().getDependents().find(el => el.isOpen()).getId()
 
         this[sDialog].then((oDialog) => {
             oDialog.close()

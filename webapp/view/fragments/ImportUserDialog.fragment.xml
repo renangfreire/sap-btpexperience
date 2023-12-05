@@ -4,14 +4,14 @@
     xmlns:l="sap.ui.layout"
 >
     <Dialog
-        id="importUsersDialog"
+        id="ImportUserDialog"
         title="Importação de usuários"
     >
         <content>
         <VBox class="sapMPageBgStandard ">
             <VBox justifyContent="Center" class="sapUiSmallMargin sap-xp-rounding"  alignItems="Center" backgroundDesign="Solid">
                 <HBox direction="Column" class="sapUiMediumMargin" alignItems="Center" justifyContent="Center">
-                <Text class="sapUiTinyMarginEnd sap-xp-labelBaseFontSize" text="Carregamento ..."></Text>
+                <Text class="sapUiTinyMarginEnd" text="Carregamento ..."></Text>
                 <ProgressIndicator
                     class="sapUiSmallMarginBottom"
                     width="20rem"
@@ -27,10 +27,10 @@
 			<Toolbar>
 				<content>
 					<ToolbarSpacer />
-                    <Button id="ImportUserDialog"
+                    <Button
 						text="Ok"
-						type="Default"
-						press=".oncloseDialog"
+						type="Emphasized"
+						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />
 				</content>
 			</Toolbar>

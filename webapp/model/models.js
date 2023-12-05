@@ -18,6 +18,25 @@ sap.ui.define([
                 var oModel = new JSONModel(Device);
                 oModel.setDefaultBindingMode("OneWay");
                 return oModel;
+        },
+            getJsonData: async function(){
+                const oModel = new JSONModel()
+
+                try {
+                    await oModel.loadData('/model/users.json')
+
+                    return new Promise(function(resolve, reject) {
+                        if(oModel.getData()){
+                            resolve(oModel)
+                        }
+                        reject(new Error)
+                    })
+                } catch (error) {
+                    console.log("Couldn't load JSON Data Service")
+                }
+        },
+        _localStorage: function(){
+            return window.localStorage
         }
     };
 });

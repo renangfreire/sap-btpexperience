@@ -5,7 +5,7 @@
     xmlns:u="sap.suite.ui.commons"
 >
     <Dialog
-        id="deleteUser-Dialog"
+        id="DeleteUserDialog"
         title="Confirmar exclusão"
     >
         <content>
@@ -13,7 +13,7 @@
             <VBox justifyContent="Center" class="sapUiSmallMargin sap-xp-rounding"  alignItems="Center" backgroundDesign="Solid">
                 <HBox direction="Column" class="sapUiMediumMargin" alignItems="Center" justifyContent="Center">
                     <Text 
-                        class="sapUiMSmallMargin sap-xp-labelBaseFontSize"
+                        class="sapUiMSmallMargin"
                         wrapping="true" 
                         textAlign="Center"
                         text="Tem certeza que deseja EXCLUIR &#13;&#10; o pré cadastro informado?" />
@@ -29,12 +29,12 @@
 						text="Cancelar"
 						type="Transparent"
                         class="sap-xp-StandardButton"
-						press=".oncloseDialog"
+						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />
                     <Button id="ConfirmDeleteUser"
 						text="Exluir linha"
 						type="Reject"
-						press=".oncloseDialog"
+						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />
 				</content>
 			</Toolbar>

@@ -7,60 +7,56 @@
     xmlns:table="sap.ui.table"
     xmlns:m="sap.m"
     xmlns:u="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
 >
     <Page
         id="page"
         enableScrolling="false"
+        showHeader="false"
     >
-        <content>
+            <ObjectHeader
+                title="Cadastro"
+                responsive="true" 
+                >
+                    <headerContainer>
+                        <HeaderContainer >
+                            <l:VerticalLayout>
+                                <Breadcrumbs class="sapUiTinyMarginTop sapUiLargeMarginBottom" currentLocationText="Novo usuário">
+                                    <Link text="Cadastro" />
+                                </Breadcrumbs>
+
+                                <l:VerticalLayout class="sapUiSmallMarginBottom">
+                                    <Title
+                                        text="Importar Usuários"
+                                        level="H2"/>
+                                    <HBox
+                                        alignItems="Center">
+                                        <u:FileUploader
+                                            id="ImportUserDialog"
+                                            width="25rem"
+                                            name="myFileUpload"
+                                            uploadUrl="upload/"
+                                            tooltip="Clique e escolha um arquivo .CSV"
+                                            placeholder="Clique e escolha um arquivo .CSV"
+                                            fileType="CSV"
+                                            buttonText="Importar"
+                                            style="Emphasized"
+                                            change="onOpenImportDialog"/>
+                                    </HBox>
+                                </l:VerticalLayout>
+                            </l:VerticalLayout> 
+                        </HeaderContainer>
+                    </headerContainer>
+            </ObjectHeader>
+        <content >
             <VBox
                 fitContainer="true"
                 class="sapUiResponsiveMargin"
+                visible="true"
             >
-                <VBox>
-                    <Title
-                        text="Cadastro"
-                        level="H1"
-                    />
-                    <Breadcrumbs>
-                        <Link text="Cadastro" />
-                        <Link text="Novo usuário" />
-                    </Breadcrumbs>
-                </VBox>
-
-                <VBox
-                    backgroundDesign="Solid"
-                    class="sapUiMediumMarginTopBottom"
-                >
-                    <HBox class="sapUiSmallMargin">
-                        <Title
-                            text="Importar Usuários"
-                            level="H2"
-                        />
-                    </HBox>
-                    <HBox
-                        class="sapUiSmallMargin"
-                        alignItems="Center"
-                    >
-                        <u:FileUploader
-                            id="ImportUserDialog"
-                            width="25rem"
-                            name="myFileUpload"
-                            uploadUrl="upload/"
-                            tooltip="Clique e escolha um arquivo .CSV"
-                            placeholder="Clique e escolha um arquivo .CSV"
-                            fileType="CSV"
-                            buttonText="Importar"
-                            style="Emphasized"
-                            change="onOpenImportDialog"
-                        />
-                        <Button press="onOpenImportDialog" />
-                    </HBox>
-                </VBox>
-
                 <HBox  
                     height="100%">
-
                     <table:Table
                         rows="{/Users-PreRegister}"
                         selectionMode="MultiToggle"
@@ -154,17 +150,23 @@
             <OverflowToolbar>
                 <ToolbarSpacer />
                 <Button
+                    id="CreateUserManuallyDialog"
                     type="Emphasized"
                     text="Inserir Usuário manualmente"
+                    press=".onOpenImportDialog"
                 />
                 <Button
+                    id="ConfirmUserImportDialog"
                     type="Emphasized"
                     text="Confirmar importação"
+                    press=".onOpenImportDialog"
                 />
                 <Button
-                    class="sap-xp-StandardButton"
+                    id="CancelUserImportDialog"
+                    class="sap-xp-StandardButton sapUiTinyMarginEnd"
                     type="Transparent"
                     text="Cancelar importação"
+                    press=".onOpenImportDialog"
                 />
             </OverflowToolbar>
         </footer>

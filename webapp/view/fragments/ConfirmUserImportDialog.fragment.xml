@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Dialog
+        id="ConfirmUserImportDialog"
+        title="Confirmar importação "
+    >
+        <content>
+            <VBox class="sapMPageBgStandard">
+                <HBox class="sapUiMediumMargin sap-xp-rounding" backgroundDesign="Solid" alignItems="Center">
+                    <HBox class="sapUiMediumMargin"> 
+                        <Text text="Tem certeza que deseja IMPORTAR &#13;&#10; todos as linhas para a base de dados?"></Text>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </content>
+        <footer>
+			<OverflowToolbar >
+                <ToolbarSpacer ></ToolbarSpacer>
+                <Button text="Cancelar" press="onCloseDialog" type="Default"></Button>
+                <Button text="Confirmar Importação" type="Accept"></Button>
+            </OverflowToolbar>
+		</footer>
+    </Dialog>
+</core:FragmentDefinition>

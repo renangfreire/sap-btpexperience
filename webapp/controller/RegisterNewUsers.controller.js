@@ -1,19 +1,28 @@
 sap.ui.define([
     "com/lab2dev/finalprojectprodev/controller/BaseController",
+    "com/lab2dev/finalprojectprodev/model/models",
     "sap/ui/model/json/JSONModel",
     'sap/ui/core/Fragment',
 ],
-    function (Controller, JSONModel) {
+    function (Controller, models,JSONModel) {
         "use strict";
 
         return Controller.extend("com.lab2dev.finalprojectprodev.controller.RegisterNewUsers", {
+            DialogTypes: [
+                "DeleteUserDialog",
+                "ImportUserDialog", 
+                "CreateUserManuallyDialog", 
+                "ConfirmUserImportDialog",
+                "CancelUserImportDialog"
+            ],
             onInit: function () {
 
-                const oModel = new JSONModel()
-                oModel.loadData('/model/users.json')
+                const oModelPromise = models.getJsonData()
 
-                this.getView().setModel(oModel)
+                oModelPromise.then(oModel => {
+                    this.getView().setModel(oModel)
+                }).catch(error => console.log(error))
+
             },
-            // Sei que posso jogar essas linhas na BASE, porém tenho que ver com relação ao THIS.DIALOG
         });
     });
