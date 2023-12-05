@@ -8,3 +8,10 @@
     background-color: #EAECEE;
     color: #1D2D3E;
 }
+.sap-xp-rounding{
+    border-radius: 0.75rem;
+}
+
+.sap-xp-labelBaseFontSize{
+    font-size: 1rem;
+}

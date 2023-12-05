@@ -1,69 +1,172 @@
-
-<mvc:View controllerName="com.lab2dev.finalprojectprodev.controller.RegisterNewUsers"
-    xmlns:cards="sap.f.cards" 
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+<mvc:View
+    controllerName="com.lab2dev.finalprojectprodev.controller.RegisterNewUsers"
+    xmlns:cards="sap.f.cards"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
     xmlns="sap.m"
-    xmlns:l="sap.ui.layout"
-    xmlns:f="sap.f"
-    xmlns:core="sap.ui.core"
     xmlns:table="sap.ui.table"
-    xmlns:m="sap.m">
-    <Page id="page">
-        <VBox height="100%" class="sapUiResponsiveMargin"> 
-            <VBox>
-                <Title text="Cadastro" level="H1" />
-                <Breadcrumbs>
-                    <Link text="Cadastro"></Link>
-                    <Link text="Novo usuário"></Link>
-                </Breadcrumbs>
-            </VBox>
-  
-            <VBox height="auto"  backgroundDesign="Solid" class="sapUiMediumMarginTopBottom">
-                <HBox class="sapUiSmallMargin">
-                    <Title text="Importar Usuários" level="H2"></Title>
-                </HBox>
-                <HBox class="sapUiSmallMargin" alignItems="Center">
-                       <SearchField width="19rem" class="sapUiTinyMarginEnd" showSearchButton="false" placeholder="Clique e escolha um arquivo .CSV"/>
-                    <Button text="Importar" type="Emphasized" press="onOpenImportDialog"/>
-                </HBox>
-           </VBox>
+    xmlns:m="sap.m"
+    xmlns:u="sap.ui.unified"
+>
+    <Page
+        id="page"
+        enableScrolling="false"
+    >
+        <content>
+            <VBox
+                fitContainer="true"
+                class="sapUiResponsiveMargin"
+            >
+                <VBox>
+                    <Title
+                        text="Cadastro"
+                        level="H1"
+                    />
+                    <Breadcrumbs>
+                        <Link text="Cadastro" />
+                        <Link text="Novo usuário" />
+                    </Breadcrumbs>
+                </VBox>
 
-        <HBox height="100%" >
-            <table:Table
-                rows="{/Users}"
-                selectionMode="MultiToggle"
-                paste="onPaste"
-                rowMode="Auto">   
-                    <table:extension >
-                            <m:OverflowToolbar  style="Clear">
-                                <m:Title class="sapUiTinyMargin" id="title" text="Users (350)"/>
-                           </m:OverflowToolbar>
+                <VBox
+                    backgroundDesign="Solid"
+                    class="sapUiMediumMarginTopBottom"
+                >
+                    <HBox class="sapUiSmallMargin">
+                        <Title
+                            text="Importar Usuários"
+                            level="H2"
+                        />
+                    </HBox>
+                    <HBox
+                        class="sapUiSmallMargin"
+                        alignItems="Center"
+                    >
+                        <u:FileUploader
+                            id="ImportUserDialog"
+                            width="25rem"
+                            name="myFileUpload"
+                            uploadUrl="upload/"
+                            tooltip="Clique e escolha um arquivo .CSV"
+                            placeholder="Clique e escolha um arquivo .CSV"
+                            fileType="CSV"
+                            buttonText="Importar"
+                            style="Emphasized"
+                            change="onOpenImportDialog"
+                        />
+                        <Button press="onOpenImportDialog" />
+                    </HBox>
+                </VBox>
+
+                <HBox  
+                    height="100%">
+
+                    <table:Table
+                        rows="{/Users-PreRegister}"
+                        selectionMode="MultiToggle"
+                        paste="onPaste"
+                        rowMode="Auto"
+                    >
+                        <table:extension>
+                            <m:OverflowToolbar style="Clear">
+                                <m:Title
+                                    class="sapUiTinyMargin"
+                                    id="title"
+                                    text="Users (350)"
+                                />
+                            </m:OverflowToolbar>
                         </table:extension>
-                    <table:columns>
-                        <table:Column width="50%">
-                             <m:Label design="Bold" text="Id"></m:Label>
-                            <table:template>
-                                <m:Text  text="{id}"/>
-                            </table:template>
-                        </table:Column>
-                        <table:Column width="50%">
-                            <m:Label design="Bold" text="Name" />
-                             <table:template>
-                                <m:Text text="{name}"/>
-                            </table:template>
-                         </table:Column>
-                     </table:columns>
-            </table:Table>
-         </HBox>
-        </VBox>
+                        <table:columns>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Name"
+                                />
+                                <table:template>
+                                    <m:Text text="{FullName}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Empresa"
+                                />
+                                <table:template>
+                                    <m:Text text="{CompanyName}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Cargo"
+                                />
+                                <table:template>
+                                    <m:Text text="{JobTitle}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Grupo de acesso"
+                                />
+                                <table:template>
+                                    <m:Text text="{AccessGroup}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="E-mail"
+                                />
+                                <table:template>
+                                    <m:Text
+                                        wrapping="false"
+                                        text="{Email}"
+                                    />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="CPF"
+                                />
+                                <table:template>
+                                    <m:Text text="{CPF}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column width="3.1rem">
+                                <table:template>
+                                    <m:Button
+                                        id="DeleteUserDialog"
+                                        type="Transparent"
+                                        icon="sap-icon://delete"
+                                        press=".onOpenImportDialog"
+                                    />
+                                </table:template>
+                            </table:Column>
+                        </table:columns>
+                    </table:Table>
+                </HBox>
+            </VBox>
+        </content>
 
         <footer>
-			<OverflowToolbar>
-				<ToolbarSpacer/>
-				<Button type="Emphasized" text="Inserir Usuário manualmente"/>
-				<Button type="Emphasized" text="Confirmar importação"/>
-				<Button class="sap-xp-StandardButton" type="Transparent" text="Reject"/>
-			</OverflowToolbar>
-		</footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    type="Emphasized"
+                    text="Inserir Usuário manualmente"
+                />
+                <Button
+                    type="Emphasized"
+                    text="Confirmar importação"
+                />
+                <Button
+                    class="sap-xp-StandardButton"
+                    type="Transparent"
+                    text="Cancelar importação"
+                />
+            </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>
