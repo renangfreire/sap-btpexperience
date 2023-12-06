@@ -11,12 +11,12 @@
         <VBox class="sapMPageBgStandard ">
             <VBox justifyContent="Center" class="sapUiSmallMargin sap-xp-rounding"  alignItems="Center" backgroundDesign="Solid">
                 <HBox direction="Column" class="sapUiMediumMargin" alignItems="Center" justifyContent="Center">
-                <Text class="sapUiTinyMarginEnd" text="Carregamento ..."></Text>
+                <Text class="sapUiTinyMarginEnd" text="Carregamento concluído"></Text>
                 <ProgressIndicator
                     class="sapUiSmallMarginBottom"
                     width="20rem"
-                    percentValue="30"
-                    displayValue="30%"
+                    percentValue="100"
+                    displayValue="100%"
                     showValue="true"
                     state="Success" />
                 </HBox>          

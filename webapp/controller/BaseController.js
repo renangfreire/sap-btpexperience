@@ -28,7 +28,14 @@ sap.ui.define(
         this[sDialog].then((oDialog) => {
             oDialog.close()
         })
-    }
+      },
+      updateDataModel: function(oData){
+          const oModel = this.getView().getModel()
+          
+          const [sProperty, aData] = Object.entries(oData)[0]
+          
+          oModel.setProperty(`/${sProperty}`, aData)
+        }
     });
   }
 );

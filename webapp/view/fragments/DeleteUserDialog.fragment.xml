@@ -31,10 +31,10 @@
                         class="sap-xp-StandardButton"
 						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />
-                    <Button id="ConfirmDeleteUser"
+                    <Button id="btnConfirmDeleteUser"
 						text="Exluir linha"
 						type="Reject"
-						press=".onCloseDialog"
+						press=".ConfirmDeleteUser"
 						ariaHasPopup="Dialog" />
 				</content>
 			</Toolbar>

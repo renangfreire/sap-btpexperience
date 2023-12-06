@@ -36,13 +36,15 @@
                                             id="ImportUserDialog"
                                             width="25rem"
                                             name="myFileUpload"
-                                            uploadUrl="upload/"
                                             tooltip="Clique e escolha um arquivo .CSV"
                                             placeholder="Clique e escolha um arquivo .CSV"
+                                            uploadUrl=""
                                             fileType="CSV"
                                             buttonText="Importar"
                                             style="Emphasized"
-                                            change="onOpenImportDialog"/>
+                                            change="handleUploadStart"
+                                            uploadComplete="handleUploadComplete"
+                                            />
                                     </HBox>
                                 </l:VerticalLayout>
                             </l:VerticalLayout> 
@@ -53,7 +55,7 @@
             <VBox
                 fitContainer="true"
                 class="sapUiResponsiveMargin"
-                visible="true"
+                visible="{/viewDetails/tableVisible}"
             >
                 <HBox  
                     height="100%">
@@ -62,6 +64,7 @@
                         selectionMode="MultiToggle"
                         paste="onPaste"
                         rowMode="Auto"
+                       
                     >
                         <table:extension>
                             <m:OverflowToolbar style="Clear">

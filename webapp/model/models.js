@@ -14,29 +14,44 @@ sap.ui.define([
         "use strict";
 
         return {
+            _localStorage: window.localStorage,
             createDeviceModel: function () {
                 var oModel = new JSONModel(Device);
                 oModel.setDefaultBindingMode("OneWay");
                 return oModel;
-        },
-            getJsonData: async function(){
-                const oModel = new JSONModel()
+             },
+            getJsonData: function(){
+                    try {
+                        const oData = this._getDataLocalStorage()
 
-                try {
-                    await oModel.loadData('/model/users.json')
+                        const oModel = new JSONModel(
+                            {
+                                ...oData,
+                                viewDetails: {
+                                    tableVisible: oData !== null
+                                }
+                            })
 
-                    return new Promise(function(resolve, reject) {
-                        if(oModel.getData()){
-                            resolve(oModel)
-                        }
-                        reject(new Error)
-                    })
-                } catch (error) {
-                    console.log("Couldn't load JSON Data Service")
-                }
-        },
-        _localStorage: function(){
-            return window.localStorage
-        }
+                        return new Promise(
+                            function(resolve, reject) {
+                                if(oModel.getData()){
+                                    resolve(oModel)
+                                }
+                                    reject(new Error)
+                                })
+                    } catch (error) {
+                        console.log("Couldn't load JSON Data Service")
+                    }
+            },
+            _setUsersLocalStorage: async function(oUsers){
+                const oData = oUsers
+
+                this._localStorage.setItem("oData", JSON.stringify(oData))
+            },
+            _getDataLocalStorage: function(){
+                const oData =  this._localStorage.getItem("oData")
+                
+                return JSON.parse(oData)
+            }
     };
 });
