@@ -7,7 +7,7 @@ sap.ui.define(
     "use strict";
 
     return BaseController.extend("com.lab2dev.finalprojectprodev.controller.BaseController", {
-      onOpenImportDialog(oEvent) {
+      onOpenDialog(oEvent) {
         const sDialog = this.DialogTypes.find(el => oEvent.getSource().getId().includes(el))
       
         if (!this[sDialog]) {

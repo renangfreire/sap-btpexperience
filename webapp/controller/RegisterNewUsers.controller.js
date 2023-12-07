@@ -2,10 +2,10 @@ sap.ui.define([
     "com/lab2dev/finalprojectprodev/controller/BaseController",
     "com/lab2dev/finalprojectprodev/model/models",
     "sap/ui/model/json/JSONModel",
-    'sap/ui/core/Fragment',
-    "sap/ui/model/odata/v2/ODataModel",
+    'sap/ui/model/Filter',
+	'sap/ui/model/FilterOperator'
 ],
-    function (Controller, models, JSONModel, ODataModel) {
+    function (Controller, models, JSONModel, Filter, FilterOperator) {
         "use strict";
 
         return Controller.extend("com.lab2dev.finalprojectprodev.controller.RegisterNewUsers", {
@@ -16,12 +16,26 @@ sap.ui.define([
                 "ConfirmUserImportDialog",
                 "CancelUserImportDialog"
             ],
+            buttonSelected: null,
             onInit: function () {
 
                 const oModelPromise = models.getJsonData()
 
-                oModelPromise.then(oModel => {
+                oModelPromise.then(oData => {
+
+                    const oModel = new JSONModel({
+                        ...oData,
+                        viewDetails: {
+                            tableVisible: Object.keys(oData).length > 0,
+                            deleteSelectedRow: null,
+                            totalRegistrations: null
+                        }
+                    })
+
                     this.getView().setModel(oModel)
+                    
+                    this._setTotalRegistrations(oData["Users-PreRegister"])
+
                 }).catch(error => console.log(error))
 
             },
@@ -65,17 +79,59 @@ sap.ui.define([
                     this.updateDataModel(oUsersImported)
                     
                     const oModel = this.getView().getModel()
+                    
                     oModel.setProperty("/viewDetails/tableVisible", true)
+                    this._setTotalRegistrations(aUsers)
                 }
 
                 reader.readAsBinaryString(oFile);
             },
-            ConfirmDeleteUser: function(oEvent){
-                console.log(oEvent)
-                debugger
+            onOpenDeleteDialog: function(oEvent){
+                const oModel = this.getView().getModel()
 
+                const selectedRow = oEvent.getSource().getParent().getId().split("row").at(-1)
+
+                oModel.setProperty("/viewDetails/deleteSelectedRow", selectedRow)
+                this.onOpenDialog(oEvent)
+            },
+            ConfirmDeleteUser: function(oEvent){
+                const oModel = this.getView().getModel()
+                const sSelectedIndex = oModel.getProperty("/viewDetails/deleteSelectedRow")
+
+                // Parte de código estática, se alterar o JSON quebra
+                const oSelectedRow = oModel.getData()["Users-PreRegister"].at(sSelectedIndex)
+
+                const oData = models.deleteUserSelected(oSelectedRow)
+
+                this.updateDataModel(oData)
 
                 this.onCloseDialog(oEvent)
+            },
+            onSearch: function(oEvent){
+                const sQuery = oEvent.getSource().getValue()
+                this._applyFilter(sQuery)
+            },
+            _applyFilter: function(sQuery){
+                const aFilters = []
+
+                if(sQuery){
+                    const oFilter = new Filter({ filters: [
+                        new Filter("FullName", FilterOperator.Contains, sQuery),
+                        new Filter("Email", FilterOperator.Contains, sQuery),
+                        new Filter("CPF", (oVal) => oVal.split('-').join('').includes(sQuery))
+                    ]})
+                    aFilters.push(oFilter)
+                }
+
+                const rows = this.byId("UsersPreRegisterTable").getBinding("rows")
+                rows.filter(aFilters)
+
+                this._setTotalRegistrations(rows.aIndices)
+            },
+            _setTotalRegistrations: function(aData){
+                const oModel = this.getView().getModel()
+
+                oModel.setProperty("/viewDetails/totalRegistrations", aData.length)
             }
         });
     });

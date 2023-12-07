@@ -22,22 +22,14 @@ sap.ui.define([
              },
             getJsonData: function(){
                     try {
-                        const oData = this._getDataLocalStorage()
-
-                        const oModel = new JSONModel(
-                            {
-                                ...oData,
-                                viewDetails: {
-                                    tableVisible: oData !== null
-                                }
-                            })
+                        const oData = this._getDataLocalStorage() || {}
 
                         return new Promise(
                             function(resolve, reject) {
-                                if(oModel.getData()){
-                                    resolve(oModel)
+                                if(oData){
+                                    resolve(oData)
                                 }
-                                    reject(new Error)
+                                    reject("Cannot find data")
                                 })
                     } catch (error) {
                         console.log("Couldn't load JSON Data Service")
@@ -52,6 +44,20 @@ sap.ui.define([
                 const oData =  this._localStorage.getItem("oData")
                 
                 return JSON.parse(oData)
+            },
+            deleteUserSelected: function(userSelected){
+                const oData = this._getDataLocalStorage()
+
+                const aWithoutUser = oData["Users-PreRegister"].filter(el => el.ID !== userSelected.ID)
+
+                const oDataProcessed = {
+                    "Users-PreRegister": aWithoutUser
+                }
+
+                this._setUsersLocalStorage(oDataProcessed)
+
+                return oDataProcessed
+
             }
     };
 });

@@ -12,9 +12,9 @@
 >
     <Page
         id="page"
-        enableScrolling="false"
         showHeader="false"
     >
+
             <ObjectHeader
                 title="Cadastro"
                 responsive="true" 
@@ -51,7 +51,7 @@
                         </HeaderContainer>
                     </headerContainer>
             </ObjectHeader>
-        <content >
+            <content >
             <VBox
                 fitContainer="true"
                 class="sapUiResponsiveMargin"
@@ -59,20 +59,24 @@
             >
                 <HBox  
                     height="100%">
+                    <!-- Verificar com o joão uma forma de EDITAR essa TABLE já que a property editable n funciona -->
                     <table:Table
+                        id="UsersPreRegisterTable"
                         rows="{/Users-PreRegister}"
-                        selectionMode="MultiToggle"
+                        selectionMode="None"
                         paste="onPaste"
                         rowMode="Auto"
-                       
                     >
                         <table:extension>
-                            <m:OverflowToolbar style="Clear">
-                                <m:Title
+                            <m:OverflowToolbar height="3rem" >
+                                <m:Title            
                                     class="sapUiTinyMargin"
                                     id="title"
-                                    text="Users (350)"
+                                    text="Pré-cadastros do arquivo ({/viewDetails/totalRegistrations})"
                                 />
+                                <ToolbarSpacer />
+                                <SearchField placeholder="Pesquisar" width="13.75rem" liveChange=".onSearch"></SearchField>
+                                <Button type="Emphasized" text="Habilitar edição"></Button>
                             </m:OverflowToolbar>
                         </table:extension>
                         <table:columns>
@@ -139,7 +143,7 @@
                                         id="DeleteUserDialog"
                                         type="Transparent"
                                         icon="sap-icon://delete"
-                                        press=".onOpenImportDialog"
+                                        press=".onOpenDeleteDialog"
                                     />
                                 </table:template>
                             </table:Column>
@@ -156,20 +160,20 @@
                     id="CreateUserManuallyDialog"
                     type="Emphasized"
                     text="Inserir Usuário manualmente"
-                    press=".onOpenImportDialog"
+                    press=".onOpenDialog"
                 />
                 <Button
                     id="ConfirmUserImportDialog"
                     type="Emphasized"
                     text="Confirmar importação"
-                    press=".onOpenImportDialog"
+                    press=".onOpenDialog"
                 />
                 <Button
                     id="CancelUserImportDialog"
                     class="sap-xp-StandardButton sapUiTinyMarginEnd"
                     type="Transparent"
                     text="Cancelar importação"
-                    press=".onOpenImportDialog"
+                    press=".onOpenDialog"
                 />
             </OverflowToolbar>
         </footer>

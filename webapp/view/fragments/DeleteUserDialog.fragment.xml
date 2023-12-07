@@ -29,6 +29,7 @@
 						text="Cancelar"
 						type="Transparent"
                         class="sap-xp-StandardButton"
+
 						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />
                     <Button id="btnConfirmDeleteUser"
