@@ -24,7 +24,7 @@
             <OverflowToolbar >
                 <ToolbarSpacer ></ToolbarSpacer>
                 <Button text="Voltar" press="onCloseDialog"></Button>
-                <Button text="Cancelar importação" type="Reject"></Button>
+                <Button text="Cancelar importação" press="onCancelImport" type="Reject"></Button>
             </OverflowToolbar>
        </footer>
     </Dialog>

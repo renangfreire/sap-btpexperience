@@ -1,7 +1,66 @@
 <mvc:View controllerName="com.lab2dev.finalprojectprodev.controller.Home"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <Text text="Text"></Text>
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    width="100%">
+    <Page id="pageController" class="sap-xp-backgroundImage sapUiNoMargin" showHeader="false">
+       <HBox justifyContent="Center" alignItems="Center" height="100%" fitContainer="true">
+            <VBox class="sapUiResponsiveContentPaddindg sap-xp-rounding" backgroundDesign="Solid">
+                <VBox justifyContent="Center" alignItems="Center" height="3rem">
+                    <Text width="100%" text="Solicitação de Cadastro" />
+                </VBox>
+                <l:HorizontalLayout >
+                <l:VerticalLayout class="sapUiContentPadding">
+                    <VBox >
+                        <Label text="Nome Completo" required="true"></Label>
+                        <Input value="{formData>/FullName}" placeholder="Texto"></Input>
+                    </VBox>
+                    <VBox >
+                        <Label text="Empresa" required="true"></Label>
+                        <Input value="{formData>/CompanyName}" placeholder="Texto"></Input>
+                    </VBox>
+                    <VBox >
+                        <Label text="Email" required="true"></Label>
+                        <Input value="{formData>/Email}" placeholder="Texto"></Input>
+                    </VBox>
+                    <VBox width="100%">
+                        <Label text="Grupo de Acesso" required="true"></Label>
+                        <Select
+                            width="100%"
+                            selectedKey="{formData>/AccessGroup}"
+                            autoAdjustWidth="false">
+                            <core:Item enabled="false" key="" text="Selecione uma chave" />
+                            <core:Item key="Cliente" text="Cliente" />
+                            <core:Item key="Administrator" text="Administrador" />
+                        </Select>
+                    </VBox>
+                </l:VerticalLayout>
+                    
+                <l:VerticalLayout class="sapUiContentPadding">
+                    <VBox >
+                        <Label text="CPF" required="true"></Label>
+                        <Input value="{formData>/CPF}" placeholder="Texto"></Input>
+                    </VBox>
+                    <VBox >
+                        <Label text="Cargo" required="true"></Label>
+                        <Input value="{formData>/JobTitle}" placeholder="Texto" ></Input>
+                    </VBox>
+                    <VBox >
+                        <Label text="Telefone" required="true"></Label>
+                        <Input value="{formData>/PhoneNumber}" placeholder="Texto"></Input>
+                    </VBox>
+                    <VBox justifyContent="End" class="sapUiSmallMarginTop" alignItems="End">
+                        <Button 
+                            id="CreateUser"
+                            type="Emphasized"
+                            text="Cadastrar usuário"
+                            press=".onSendForm"
+                            />
+                    </VBox>
+                </l:VerticalLayout>
+            </l:HorizontalLayout>
+            </VBox>
+            </HBox>
     </Page>
 </mvc:View>

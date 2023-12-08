@@ -79,15 +79,29 @@
       "routes": [
         {
           "name": "RouteHome",
-          "pattern": ":?query:",
+          "pattern": "",
           "target": [
             "TargetHome"
+          ]
+        },
+        {
+          "name": "RouteRegisterNewUsers",
+          "pattern": "/newUsers",
+          "target": [
+            "RegisterNewUsers"
           ]
         }
         
       ],
       "targets": {
         "TargetHome": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "RegistrationRequests",
+          "viewName": "RegistrationRequests"
+        },
+        "RegisterNewUsers": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,

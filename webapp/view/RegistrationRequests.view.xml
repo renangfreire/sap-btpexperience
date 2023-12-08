@@ -1,52 +1,29 @@
-<mvc:View
-    controllerName="com.lab2dev.finalprojectprodev.controller.RegisterNewUsers"
-    xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
+<mvc:View controllerName="com.lab2dev.finalprojectprodev.controller.RegistrationRequests"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:table="sap.ui.table"
     xmlns:m="sap.m"
     xmlns:u="sap.ui.unified"
     xmlns:core="sap.ui.core"
-    xmlns:l="sap.ui.layout"
->
-    <Page
-        id="page"
-        showHeader="false"
-    >
-        <ObjectHeader
+    xmlns:l="sap.ui.layout">
+    <Page id="page" busyIndicatorDelay="1000">
+    <ObjectHeader
             title="Cadastro"
             responsive="true"
+            introActive="false"
         >
             <headerContainer>
                 <HeaderContainer>
                     <l:VerticalLayout>
                         <Breadcrumbs
                             class="sapUiTinyMarginTop sapUiLargeMarginBottom"
-                            currentLocationText="Novo usuário"
+                            currentLocationText="Aprovação"
                         >
                             <Link text="Cadastro" />
                         </Breadcrumbs>
 
                         <l:VerticalLayout class="sapUiSmallMarginBottom">
-                            <Title
-                                text="Importar Usuários"
-                                level="H2"
-                            />
-                            <HBox alignItems="Center">
-                                <u:FileUploader
-                                    id="ImportUserDialog"
-                                    width="25rem"
-                                    name="myFileUpload"
-                                    tooltip="Clique e escolha um arquivo .CSV"
-                                    placeholder="Clique e escolha um arquivo .CSV"
-                                    uploadUrl=""
-                                    fileType="CSV"
-                                    buttonText="Importar"
-                                    style="Emphasized"
-                                    change="handleUploadStart"
-                                    uploadComplete="handleUploadComplete"
-                                />
-                            </HBox>
+                            <!--  Filtro qui -->
                         </l:VerticalLayout>
                     </l:VerticalLayout>
                 </HeaderContainer>
@@ -60,9 +37,9 @@
             >
                 <HBox height="100%">
                     <table:Table
-                        id="UsersPreRegisterTable"
-                        rows="{/Users-PreRegister}"
-                        selectionMode="None"
+                        id="RegistrationRequestsTable"
+                        rows="{/newRequests}"
+                        selectionMode="MultiToggle"
                         paste="onPaste"
                         rowMode="Auto"
                     >
@@ -71,7 +48,7 @@
                                 <m:Title
                                     class="sapUiTinyMargin"
                                     id="title"
-                                    text="Pré-cadastros do arquivo ({viewDetails>/totalRegistrations})"
+                                    text="Solicitação de Cadastros ({viewDetails>/totalRegistrations})"
                                 />
                                 <ToolbarSpacer />
                                 <SearchField
@@ -80,24 +57,38 @@
                                     liveChange=".onSearch"
                                 />
                                 <Button
-                                    type="Emphasized"
-                                    text="Habilitar edição"
-                                    press="onEnableEdit"
-                                    visible="{= !${viewDetails>/bEditTableEnabled}}"
+                                    type="Accept"
+                                    text="Confirmar"
+                                    press=""
                                 />
                                 <Button
-                                    type="Accept"
-                                    text="Confirmar Edição"
-                                    press="onConfirmEdit"
-                                    visible="{viewDetails>/bEditTableEnabled}"
+                                    type="Reject"
+                                    text="Recusar"
+                                    press="onRefuseRegistration"
+                                />
+                                <Button
+                                    type="Transparent"
+                                    text="Editar"
+                                    iconFirst="false"
+                                    icon="sap-icon://edit"
+                                    press=""
                                 />
                             </m:OverflowToolbar>
                         </table:extension>
                         <table:columns>
+                            <table:Column visible="false">
+                                <m:Label
+                                    design="Bold"
+                                    text="ID"
+                                />
+                                <table:template> 
+                                        <m:Text text="{ID}" />
+                                </table:template>
+                            </table:Column>
                             <table:Column>
                                 <m:Label
                                     design="Bold"
-                                    text="Name"
+                                    text="Nome Completo"
                                 />
                                 <table:template>
                                     <VBox> 
@@ -133,7 +124,7 @@
                             <table:Column>
                                 <m:Label
                                     design="Bold"
-                                    text="Grupo de acesso"
+                                    text="Grupo selecionado"
                                 />
                                 <table:template>
                                  <VBox>
@@ -176,14 +167,16 @@
                                     </VBox>
                                 </table:template>
                             </table:Column>
-                            <table:Column width="3.1rem">
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Data de solicitação"
+                                />
                                 <table:template>
-                                    <m:Button
-                                        id="DeleteUserDialog"
-                                        type="Transparent"
-                                        icon="sap-icon://delete"
-                                        press=".onOpenDeleteDialog"
-                                    />
+                                    <VBox>
+                                        <m:Text text="{CPF}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
+                                        <m:Input value="{CPF}" visible="{viewDetails>/bEditTableEnabled}" />
+                                    </VBox>
                                 </table:template>
                             </table:Column>
                         </table:columns>
@@ -198,21 +191,16 @@
                 <Button
                     id="CreateUserManuallyDialog"
                     type="Emphasized"
-                    text="Inserir Usuário manualmente"
+                    icon="sap-icon://excel-attachment"
+                    iconFirst="false"
+                    text="Exportar Excel"
                     press=".onOpenDialog"
                 />
                 <Button
                     id="ConfirmUserImportDialog"
                     type="Emphasized"
-                    text="Confirmar importação"
-                    press=".onOpenDialog"
-                />
-                <Button
-                    id="CancelUserImportDialog"
-                    class="sap-xp-StandardButton sapUiTinyMarginEnd"
-                    type="Transparent"
-                    text="Cancelar importação"
-                    press=".onOpenDialog"
+                    text="Adicionar Usuários"
+                    press=".onNavToRegisterNewUsers"
                 />
             </OverflowToolbar>
         </footer>

@@ -1,5 +1,12 @@
 /* Enter your custom styles here */
 
+.sap-xp-backgroundImage {
+    background-image: url("../images/sapbtpexperience.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
 .sap-xp-StandardButton > span{
     background-color: #EAECEE;
     color: #1D2D3E;

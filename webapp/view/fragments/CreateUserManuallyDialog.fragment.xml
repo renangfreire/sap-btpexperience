@@ -12,25 +12,25 @@
                 <l:VerticalLayout class="sapUiContentPadding">
                     <VBox >
                         <Label text="Nome Completo" required="true"></Label>
-                        <Input placeholder="Texto"></Input>
+                        <Input value="{formData>/FullName}" placeholder="Texto"></Input>
                     </VBox>
                     <VBox >
-                        <Label text="Nome" required="true"></Label>
-                        <Input placeholder="Texto"></Input>
+                        <Label text="Empresa" required="true"></Label>
+                        <Input value="{formData>/CompanyName}" placeholder="Texto"></Input>
                     </VBox>
                     <VBox >
                         <Label text="Email" required="true"></Label>
-                        <Input placeholder="Texto"></Input>
+                        <Input value="{formData>/Email}" placeholder="Texto"></Input>
                     </VBox>
                     <VBox width="100%">
                         <Label text="Grupo de Acesso" required="true"></Label>
                         <Select
                             width="100%"
-                            forceSelection="false"
-                            selectedKey="Cliente"
+                            selectedKey="{formData>/AccessGroup}"
                             autoAdjustWidth="false">
+                            <core:Item enabled="false" key="" text="Selecione uma chave" />
                             <core:Item key="Cliente" text="Cliente" />
-                            <core:Item key="Admin" text="Administrador" />
+                            <core:Item key="Administrator" text="Administrador" />
                         </Select>
                     </VBox>
                 </l:VerticalLayout>
@@ -38,22 +38,22 @@
                 <l:VerticalLayout class="sapUiContentPadding">
                     <VBox >
                         <Label text="CPF" required="true"></Label>
-                        <Input placeholder="Texto"></Input>
+                        <Input value="{formData>/CPF}" placeholder="Texto"></Input>
                     </VBox>
                     <VBox >
                         <Label text="Cargo" required="true"></Label>
-                        <Input placeholder="Texto" ></Input>
+                        <Input value="{formData>/JobTitle}" placeholder="Texto" ></Input>
                     </VBox>
                     <VBox >
                         <Label text="Telefone" required="true"></Label>
-                        <Input placeholder="Texto"></Input>
+                        <Input value="{formData>/PhoneNumber}" placeholder="Texto"></Input>
                     </VBox>
                     <VBox justifyContent="End" class="sapUiSmallMarginTop" alignItems="End">
                         <Button 
                             id="CreateUser"
                             type="Emphasized"
                             text="Cadastrar usuário"
-                            press=".onCloseDialog"
+                            press=".onSendForm"
                             />
                     </VBox>
                 </l:VerticalLayout>

@@ -22,7 +22,7 @@ sap.ui.define([
              },
             getJsonData: function(){
                     try {
-                        const oData = this._getDataLocalStorage() || {}
+                        const oData = this._getUsersLocalStorage() || {}
 
                         return new Promise(
                             function(resolve, reject) {
@@ -40,13 +40,32 @@ sap.ui.define([
 
                 this._localStorage.setItem("oData", JSON.stringify(oData))
             },
-            _getDataLocalStorage: function(){
+            _getUsersLocalStorage: function(){
                 const oData =  this._localStorage.getItem("oData")
                 
                 return JSON.parse(oData)
             },
+            getRegistrationRequests: function(){
+                const aData = this._localStorage.getItem("registrationRequests")
+
+                if(!aData){
+                    return {newRequests: []}
+                }
+
+                return JSON.parse(aData)
+            },
+            setRegistrationRequests: function(oNewRequest){
+                const aData = this.getRegistrationRequests()
+                
+                const newData = {
+                    newRequests: [...aData.newRequests, oNewRequest]
+                }
+
+
+                this._localStorage.setItem("registrationRequests", JSON.stringify(newData))
+            },
             deleteUserSelected: function(userSelected){
-                const oData = this._getDataLocalStorage()
+                const oData = this._getUsersLocalStorage()
 
                 const aWithoutUser = oData["Users-PreRegister"].filter(el => el.ID !== userSelected.ID)
 
@@ -57,7 +76,6 @@ sap.ui.define([
                 this._setUsersLocalStorage(oDataProcessed)
 
                 return oDataProcessed
-
             }
     };
 });
