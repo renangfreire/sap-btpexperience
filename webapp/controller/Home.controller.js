@@ -35,8 +35,13 @@ sap.ui.define([
                 const actualRequests = models.getRegistrationRequests().newRequests
 
                 oData.ID = Number(actualRequests?.at(-1)?.ID) + 1 || 1; 
+                oData.requestDate = new Date().toJSON();
 
-                models.setRegistrationRequests(oData)
+                const oDataUpdated = {
+                    newRequests: [...actualRequests, oData],
+                }
+
+                models.setRegistrationRequests(oDataUpdated)
 
                 this.oRouter.navTo("RouteRegisterNewUsers")
             }

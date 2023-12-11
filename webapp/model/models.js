@@ -55,14 +55,11 @@ sap.ui.define([
                 return JSON.parse(aData)
             },
             setRegistrationRequests: function(oNewRequest){
-                const aData = this.getRegistrationRequests()
+
+                this._localStorage.setItem("registrationRequests", JSON.stringify(oNewRequest))
+            },
+            deleteRegistrationRequest: function(){
                 
-                const newData = {
-                    newRequests: [...aData.newRequests, oNewRequest]
-                }
-
-
-                this._localStorage.setItem("registrationRequests", JSON.stringify(newData))
             },
             deleteUserSelected: function(userSelected){
                 const oData = this._getUsersLocalStorage()

@@ -27,8 +27,7 @@
 					<ToolbarSpacer />
                     <Button id="CancelDeleteUser"
 						text="Cancelar"
-						type="Transparent"
-                        class="sap-xp-StandardButton"
+						type="Ghost"
 
 						press=".onCloseDialog"
 						ariaHasPopup="Dialog" />

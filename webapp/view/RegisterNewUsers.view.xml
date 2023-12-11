@@ -209,8 +209,8 @@
                 />
                 <Button
                     id="CancelUserImportDialog"
-                    class="sap-xp-StandardButton sapUiTinyMarginEnd"
-                    type="Transparent"
+                    class="sapUiTinyMarginEnd"
+                    type="Ghost"
                     text="Cancelar importação"
                     press=".onOpenDialog"
                 />

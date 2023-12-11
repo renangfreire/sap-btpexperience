@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.lab2dev.finalprojectprodev.controller.RegistrationRequests"
+<mvc:View xmlns:cssgrid="sap.ui.layout.cssgrid" xmlns:form="sap.ui.layout.form" controllerName="com.lab2dev.finalprojectprodev.controller.RegistrationRequests"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:table="sap.ui.table"
@@ -14,17 +14,55 @@
         >
             <headerContainer>
                 <HeaderContainer>
-                    <l:VerticalLayout>
+                    <l:VerticalLayout width="100%">
                         <Breadcrumbs
                             class="sapUiTinyMarginTop sapUiLargeMarginBottom"
                             currentLocationText="Aprovação"
                         >
                             <Link text="Cadastro" />
                         </Breadcrumbs>
+                                
+                        <m:Title
+                            class="sapUiTinyMargin"
+                            id="text"
+                            text="Filtrar"
+                        />
+                        <m:OverflowToolbar class="sapUiSmallMarginBottom"  style="Clear" height="3rem" width="100%">
+                                     <VBox >
+                                        <Label text="Pesquisar" />
+                                        <SearchField
+                                            placeholder="Pesquisar"
+                                            value="{filters>/searchQuery}"
+                                        />
+                                     </VBox>
 
-                        <l:VerticalLayout class="sapUiSmallMarginBottom">
-                            <!--  Filtro qui -->
-                        </l:VerticalLayout>
+                                     <VBox >
+                                        <Label text="Empresas" />
+                                        <Select autoAdjustWidth="true" selectedKey="{filters>/companySelected}" >
+                                            <core:Item key="" enabled="false" text="Selecionar empresas"></core:Item>
+                                            <core:Item key="SAP" text="SAP"></core:Item>
+                                            <core:Item key="Lab2dev" text="Lab2dev"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="Cargos" />
+                                        <Select autoAdjustWidth="true" selectedKey="{filters>/jobTitleSelected}">
+                                            <core:Item key="" enabled="false" text="Selecionar cargos"></core:Item>
+                                            <core:Item key="Gerente" text="Gerente"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="Grupo" />
+                                        <Select autoAdjustWidth="true" selectedKey="{filters>/accessGroupSelected}">
+                                            <core:Item key="" enabled="false" text="Selecionar grupos"></core:Item>
+                                            <core:Item key="Administrador" text="Administrador"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <HBox height="100%" alignItems="End">
+                                        <Button text="Iniciar" class="sapUiTinyMarginEnd" type="Emphasized" press="onApplyFilters"></Button>
+                                        <Button text="Limpar Filtros" type="Ghost" press="onClearFilters"></Button>
+                                    </HBox>
+                        </m:OverflowToolbar>
                     </l:VerticalLayout>
                 </HeaderContainer>
             </headerContainer>
@@ -48,7 +86,7 @@
                                 <m:Title
                                     class="sapUiTinyMargin"
                                     id="title"
-                                    text="Solicitação de Cadastros ({viewDetails>/totalRegistrations})"
+                                    text="Solicitação de Cadastros ({viewDetails>/totalRequests})"
                                 />
                                 <ToolbarSpacer />
                                 <SearchField
@@ -60,23 +98,32 @@
                                     type="Accept"
                                     text="Confirmar"
                                     press=""
+                                    visible="{= !${viewDetails>/bEditTableEnabled}}"
                                 />
                                 <Button
                                     type="Reject"
-                                    text="Recusar"
-                                    press="onRefuseRegistration"
+                                    text="Reprovar"
+                                    press="onDisapproveRegistration"
+                                    visible="{= !${viewDetails>/bEditTableEnabled}}"
                                 />
                                 <Button
                                     type="Transparent"
                                     text="Editar"
                                     iconFirst="false"
                                     icon="sap-icon://edit"
-                                    press=""
+                                    press="onEnableEdit"
+                                    visible="{= !${viewDetails>/bEditTableEnabled}}"
+                                />
+                                <Button
+                                    type="Emphasized"
+                                    text="Confirmar Edição"
+                                    press="onConfirmEdit"
+                                    visible="{viewDetails>/bEditTableEnabled}"
                                 />
                             </m:OverflowToolbar>
                         </table:extension>
                         <table:columns>
-                            <table:Column visible="false">
+                            <table:Column>
                                 <m:Label
                                     design="Bold"
                                     text="ID"
@@ -138,7 +185,7 @@
                                             visible="{viewDetails>/bEditTableEnabled}"
                                             >
                                             <core:Item key="Cliente" text="Cliente" />
-                                            <core:Item key="Administrator" text="Administrador" />
+                                            <core:Item key="Administrador" text="Administrador" />
                                         </Select>
                                     </VBox>
                                 </table:template>
@@ -173,10 +220,7 @@
                                     text="Data de solicitação"
                                 />
                                 <table:template>
-                                    <VBox>
-                                        <m:Text text="{CPF}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
-                                        <m:Input value="{CPF}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
+                                        <m:Text text="{path: 'requestDate', formatter: '.formatter.formatDate'}"/>
                                 </table:template>
                             </table:Column>
                         </table:columns>
@@ -194,7 +238,7 @@
                     icon="sap-icon://excel-attachment"
                     iconFirst="false"
                     text="Exportar Excel"
-                    press=".onOpenDialog"
+                    press=".exportExcelFile"
                 />
                 <Button
                     id="ConfirmUserImportDialog"

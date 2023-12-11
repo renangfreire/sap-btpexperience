@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Dialog
+        id="DisapprovedUserDialog"
+        title="Cancelar Importação "
+    >
+       <content>
+         <VBox class="sapMPageBgStandard ">
+            <VBox justifyContent="Center" class="sapUiSmallMargin sap-xp-rounding"  alignItems="Center" backgroundDesign="Solid">
+                <HBox direction="Column" class="sapUiMediumMargin" alignItems="Center" justifyContent="Center">
+                    <Text 
+                        class="sapUiMSmallMargin"
+                        wrapping="true" 
+                        textAlign="Center"
+                        text="Tem certeza que deseja CANCELAR &#13;&#10; a importação?" />
+                </HBox>          
+            </VBox>
+        </VBox>
+       </content>
+       <footer>
+            <OverflowToolbar >
+                <ToolbarSpacer ></ToolbarSpacer>
+                <Button text="Voltar" press="onCloseDialog"></Button>
+                <Button text="Cancelar importação" press="onCancelImport" type="Reject"></Button>
+            </OverflowToolbar>
+       </footer>
+    </Dialog>
+</core:FragmentDefinition>

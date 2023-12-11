@@ -7,14 +7,6 @@
     background-size: 100%;
 }
 
-.sap-xp-StandardButton > span{
-    background-color: #EAECEE;
-    color: #1D2D3E;
-}
-.sap-xp-StandardButton:hover > span{
-    background-color: #EAECEE;
-    color: #1D2D3E;
-}
 .sap-xp-rounding{
     border-radius: 0.75rem;
 }
