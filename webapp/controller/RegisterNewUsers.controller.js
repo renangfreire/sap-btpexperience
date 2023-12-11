@@ -20,29 +20,41 @@ sap.ui.define(
                 ],
                 buttonSelected: null,
                 onInit: function () {
-                    const oModelPromise = models.getJsonData();
-
                     this.oRouter = this.getOwnerComponent().getRouter();
+                    
+                    const oData = this._verifyingTimeCache()
 
-                    oModelPromise
-                        .then((oData) => {
-                            const oModel = new JSONModel(oData);
+                    const oModel = new JSONModel(oData);
 
-                            const oModelViewDetails = new JSONModel({
-                                    tableVisible: Object.keys(oData).length > 0,
-                                    deleteSelectedRow: null,
-                                    totalRegistrations: null,
-                                    bEditTableEnabled: false
-                                })
-
-
-                            this.getView().setModel(oModel);
-
-                            this.getView().setModel(oModelViewDetails, "viewDetails")
-
-                            this._setTotalRegistrations(oData["Users-PreRegister"]);
+                    const oModelViewDetails = new JSONModel({
+                            tableVisible: Object.keys(oData).length > 0,
+                            deleteSelectedRow: null,
+                            totalRegistrations: null,
+                            bEditTableEnabled: false
                         })
-                        .catch((error) => console.log(error));
+
+
+                    this.getView().setModel(oModel);
+
+                    this.getView().setModel(oModelViewDetails, "viewDetails")
+                },
+                _verifyingTimeCache: function(){
+                    const oData = models._getTempImportUsers()
+                    
+                    if(!oData){
+                        return {}
+                    } 
+
+                    const timeNow = new Date();
+
+                    const pastMinutes = new Date(timeNow - new Date(oData.timeStamp)).getMinutes();
+
+                    if(pastMinutes > 2){
+                        return {}
+                    }
+
+                    return oData
+
                 },
                 handleUploadStart: function (oEvent) {
                     const oFileUploader = oEvent.getSource();
@@ -87,7 +99,7 @@ sap.ui.define(
                             "Users-PreRegister": aUsers,
                         };
 
-                        models._setUsersLocalStorage(oUsersImported);
+                        models._setTempImportUsers(oUsersImported);
 
                         this.updateDataModel(oUsersImported);
 
@@ -120,7 +132,7 @@ sap.ui.define(
                     const aUsers = oModel.getData()["Users-PreRegister"];
                     const oSelectedRow = aUsers.at(sSelectedIndex);
 
-                    const oData = models.deleteUserSelected(oSelectedRow);
+                    const oData = this.deleteUserSelected(oSelectedRow);
 
                     this.updateDataModel(oData);
                     this._setTotalRegistrations(oModel.getData()["Users-PreRegister"]);
@@ -171,7 +183,7 @@ sap.ui.define(
                     const oViewDetailsModel = this.getView().getModel("viewDetails");
                     const oData = this.getView().getModel().getData()
 
-                    models._setUsersLocalStorage(oData)
+                    models._setTempImportUsers(oData)
 
                     oViewDetailsModel.setProperty("/bEditTableEnabled",  false)
                 },
@@ -190,7 +202,7 @@ sap.ui.define(
                         "Users-PreRegister": aData}
 
                     oModel.setData(oDataChanged)
-                    models._setUsersLocalStorage(oDataChanged)
+                    models._setTempImportUsers(oDataChanged)
                     this._setTotalRegistrations(aData)
 
                   this.onCloseDialog(oEvent)
@@ -203,7 +215,27 @@ sap.ui.define(
                     oViewDetailsModel.setProperty("/tableVisible", false)
 
                     this.onCloseDialog()
-                }
+                },
+                onConfirmImport: function(){
+                    const oData = this.getView().getModel().getData()
+
+                    this._sendUsersToStorage(oData["Users-PreRegister"])
+
+                    this.onCloseDialog()
+                },
+                deleteUserSelected: function(userSelected){
+                    const oData = models._getTempImportUsers()
+    
+                    const aWithoutUser = oData["Users-PreRegister"].filter(el => el.ID !== userSelected.ID)
+    
+                    const oDataProcessed = {
+                        "Users-PreRegister": aWithoutUser
+                    }
+    
+                    models._setTempImportUsers(oDataProcessed)
+    
+                    return oDataProcessed
+                },
             }
         );
     }

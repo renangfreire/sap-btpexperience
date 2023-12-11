@@ -35,13 +35,16 @@ sap.ui.define([
                         console.log("Couldn't load JSON Data Service")
                     }
             },
-            _setUsersLocalStorage: async function(oUsers){
-                const oData = oUsers
+            _setTempImportUsers: async function(oUsers){
+                const oData = {
+                    ...oUsers,
+                    timeStamp: new Date()
+                }
 
-                this._localStorage.setItem("oData", JSON.stringify(oData))
+                this._localStorage.setItem("TempUsers", JSON.stringify(oData))
             },
-            _getUsersLocalStorage: function(){
-                const oData =  this._localStorage.getItem("oData")
+            _getTempImportUsers: function(){
+                const oData =  this._localStorage.getItem("TempUsers")
                 
                 return JSON.parse(oData)
             },
@@ -57,18 +60,18 @@ sap.ui.define([
             setRegistrationRequests: function(oNewRequest){
                 this._localStorage.setItem("registrationRequests", JSON.stringify(oNewRequest))
             },
-            deleteUserSelected: function(userSelected){
-                const oData = this._getUsersLocalStorage()
-
-                const aWithoutUser = oData["Users-PreRegister"].filter(el => el.ID !== userSelected.ID)
-
-                const oDataProcessed = {
-                    "Users-PreRegister": aWithoutUser
+            setUsers: async function(oUsers){
+                const oData = oUsers
+                this._localStorage.setItem("Users", JSON.stringify(oData))
+            },
+            getUsers: function(){
+                const oData =  this._localStorage.getItem("Users")
+                
+                if(!oData){
+                    return {Users: []}
                 }
-
-                this._setUsersLocalStorage(oDataProcessed)
-
-                return oDataProcessed
-            }
+                
+                return JSON.parse(oData)
+            },
     };
 });

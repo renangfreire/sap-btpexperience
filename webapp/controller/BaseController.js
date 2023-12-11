@@ -4,9 +4,10 @@ sap.ui.define(
     'sap/ui/core/Fragment',
     "com/lab2dev/finalprojectprodev/model/formatter",
     "sap/ui/model/json/JSONModel",
-    'sap/m/MessageToast'
+    'sap/m/MessageToast',
+    "com/lab2dev/finalprojectprodev/model/models",
   ],
-  function (BaseController, Fragment, formatter, JSONModel, MessageToast) {
+  function (BaseController, Fragment, formatter, JSONModel, MessageToast, models) {
     "use strict";
 
     return BaseController.extend("com.lab2dev.finalprojectprodev.controller.BaseController", {
@@ -64,9 +65,33 @@ sap.ui.define(
       },
       onListSelect: function(oEvent){
         const sTargetPage = oEvent.getParameter("key")
-        
+
         this.oRouter.navTo(sTargetPage)
-      }
-    });
+      },
+      _sendUsersToStorage: function(aUsers){
+        // First Change all IDS...
+        const oData = models.getUsers()
+        
+
+        const iLastIndex = oData.Users.at(-1)?.ID || 0;
+        let num = iLastIndex;
+
+        const aUsersAdjustID = aUsers.map(user => {
+          return {
+            ...user,
+            ID: ++num
+          }
+        })
+
+        // SETTING
+        models.setUsers({
+          Users: [
+            ...oData?.Users,
+            ...aUsersAdjustID
+          ]
+        })
+    }
+  });
+    
   }
 );
