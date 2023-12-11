@@ -90,6 +90,13 @@
           "target": [
             "RegisterNewUsers"
           ]
+        },
+        {
+          "name": "RouteRegistrationRequests",
+          "pattern": "/approveUsers",
+          "target": [
+            "RegistrationRequests"
+          ]
         }
         
       ],
@@ -98,8 +105,8 @@
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "RegistrationRequests",
-          "viewName": "RegistrationRequests"
+          "viewId": "Home",
+          "viewName": "Home"
         },
         "RegisterNewUsers": {
           "viewType": "XML",
@@ -107,6 +114,13 @@
           "clearControlAggregation": false,
           "viewId": "RegisterNewUsers",
           "viewName": "RegisterNewUsers"
+        },
+        "RegistrationRequests": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Users",
+          "viewName": "Users"
         }
       }
     },

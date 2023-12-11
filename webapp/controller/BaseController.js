@@ -61,6 +61,11 @@ sap.ui.define(
       },
       showToast:function(sMessage){
         MessageToast.show(sMessage)
+      },
+      onListSelect: function(oEvent){
+        const sTargetPage = oEvent.getParameter("key")
+        
+        this.oRouter.navTo(sTargetPage)
       }
     });
   }

@@ -15,7 +15,7 @@
                         class="sapUiMSmallMargin"
                         wrapping="true" 
                         textAlign="Center"
-                        text="Tem certeza que deseja CANCELAR &#13;&#10; a importação?" />
+                        text="Tem certeza que deseja REPROVAR &#13;&#10; os {disapproveModel>/aSelectedIndices/length} usuários selecionados" />
                 </HBox>          
             </VBox>
         </VBox>
@@ -24,7 +24,7 @@
             <OverflowToolbar >
                 <ToolbarSpacer ></ToolbarSpacer>
                 <Button text="Voltar" press="onCloseDialog"></Button>
-                <Button text="Cancelar importação" press="onCancelImport" type="Reject"></Button>
+                <Button text="Cancelar importação" press="onDisapproveRegistration" type="Reject"></Button>
             </OverflowToolbar>
        </footer>
     </Dialog>

@@ -1,25 +1,19 @@
-<mvc:View
-    controllerName="com.lab2dev.finalprojectprodev.controller.RegisterNewUsers"
-    xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
+<mvc:View xmlns:form="sap.ui.layout.form" controllerName="com.lab2dev.finalprojectprodev.controller.Users"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:table="sap.ui.table"
     xmlns:m="sap.m"
     xmlns:u="sap.ui.unified"
     xmlns:core="sap.ui.core"
-    xmlns:l="sap.ui.layout"
->
-    <Page
-        id="page"
-        showHeader="false"
-    >
+    xmlns:l="sap.ui.layout">
+    <Page id="page" showHeader="false">
         <IconTabBar
-                id="idIconTabBarMulti"
-                headerBackgroundDesign="Solid"
-                selectedKey="RouteRegisterNewUsers"
-                select=".onListSelect"
-                class="sapUiNoContentPadding"
-                >
+            id="idIconTabBarMulti"
+            headerBackgroundDesign="Solid"
+            selectedKey="RouteUsers"
+            select=".onListSelect"
+            class="sapUiNoContentPadding"
+            >
             <items>
                 <IconTabFilter
                     id="iconTabRegistrations"
@@ -62,6 +56,7 @@
                             text="Repositórios"
                         />
                         <IconTabFilter
+                            key="RouteUsers"
                             text="Usuários"
                         />
                     </items>
@@ -112,41 +107,59 @@
                 </IconTabFilter>
             </items>
         </IconTabBar>
-        <ObjectHeader
-            title="Cadastro"
+
+    <ObjectHeader
+            title="Administração"
             responsive="true"
+            introActive="false"
         >
             <headerContainer>
                 <HeaderContainer>
-                    <l:VerticalLayout>
+                    <l:VerticalLayout width="100%">
                         <Breadcrumbs
                             class="sapUiTinyMarginTop sapUiLargeMarginBottom"
-                            currentLocationText="Novo usuário"
+                            currentLocationText="Perfis"
                         >
-                            <Link text="Cadastro" />
+                            <Link text="Usuários" />
                         </Breadcrumbs>
+                                
+                        <m:Title
+                            class="sapUiTinyMargin"
+                            id="text"
+                            text="Filtrar"
+                        />
+                        <m:OverflowToolbar class="sapUiSmallMarginBottom"  style="Clear" height="3rem" width="100%">
+                                     <VBox >
+                                        <Label text="Pesquisar" />
+                                        <SearchField
+                                            placeholder="Pesquisar"
+                                            value="{filters>/searchQuery}"
+                                        />
+                                     </VBox>
 
-                        <l:VerticalLayout class="sapUiSmallMarginBottom">
-                            <Title
-                                text="Importar Usuários"
-                                level="H2"
-                            />
-                            <HBox alignItems="Center">
-                                <u:FileUploader
-                                    id="ImportUserDialog"
-                                    width="25rem"
-                                    name="myFileUpload"
-                                    tooltip="Clique e escolha um arquivo .CSV"
-                                    placeholder="Clique e escolha um arquivo .CSV"
-                                    uploadUrl=""
-                                    fileType="CSV"
-                                    buttonText="Importar"
-                                    style="Emphasized"
-                                    change="handleUploadStart"
-                                    uploadComplete="handleUploadComplete"
-                                />
-                            </HBox>
-                        </l:VerticalLayout>
+                                     <VBox >
+                                        <Label text="Empresas" />
+                                        <Select width="11.5rem" selectedKey="teste" forceSelection="true" items="{viewDetails>/allCompanyNames}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="Cargos" />
+                                        <Select width="11.5rem" selectedKey="{filters>/jobTitleSelected}" items="{viewDetails>/allJobTitles}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="Grupo" />
+                                        <Select width="11.5rem" selectedKey="{filters>/accessGroupSelected}" items="{viewDetails>/allAccessGroups}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
+                                        </Select>
+                                    </VBox>
+                                    <HBox height="100%" alignItems="End">
+                                        <Button text="Iniciar" class="sapUiTinyMarginEnd" type="Emphasized" press="onApplyFilters"></Button>
+                                        <Button text="Limpar Filtros" type="Ghost" press="onClearFilters"></Button>
+                                    </HBox>
+                        </m:OverflowToolbar>
                     </l:VerticalLayout>
                 </HeaderContainer>
             </headerContainer>
@@ -159,9 +172,9 @@
             >
                 <HBox height="100%">
                     <table:Table
-                        id="UsersPreRegisterTable"
-                        rows="{/Users-PreRegister}"
-                        selectionMode="None"
+                        id="RegistrationRequestsTable"
+                        rows="{/newRequests}"
+                        selectionMode="MultiToggle"
                         paste="onPaste"
                         rowMode="Auto"
                     >
@@ -170,7 +183,7 @@
                                 <m:Title
                                     class="sapUiTinyMargin"
                                     id="title"
-                                    text="Pré-cadastros do arquivo ({viewDetails>/totalRegistrations})"
+                                    text="Usuários ({viewDetails>/totalUsers})"
                                 />
                                 <ToolbarSpacer />
                                 <SearchField
@@ -178,31 +191,25 @@
                                     width="13.75rem"
                                     liveChange=".onSearch"
                                 />
-                                <Button
-                                    type="Emphasized"
-                                    text="Habilitar edição"
-                                    press="onEnableEdit"
-                                    visible="{= !${viewDetails>/bEditTableEnabled}}"
-                                />
-                                <Button
-                                    type="Accept"
-                                    text="Confirmar Edição"
-                                    press="onConfirmEdit"
-                                    visible="{viewDetails>/bEditTableEnabled}"
-                                />
                             </m:OverflowToolbar>
                         </table:extension>
                         <table:columns>
                             <table:Column>
                                 <m:Label
                                     design="Bold"
-                                    text="Name"
+                                    text="ID"
+                                />
+                                <table:template> 
+                                        <m:Text text="{ID}" />
+                                </table:template>
+                            </table:Column>
+                            <table:Column>
+                                <m:Label
+                                    design="Bold"
+                                    text="Nome Completo"
                                 />
                                 <table:template>
-                                    <VBox> 
                                         <m:Text text="{FullName}" visible="{= !${viewDetails>/bEditTableEnabled}}" />
-                                        <m:Input value="{FullName}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
                                 </table:template>
                             </table:Column>
                             <table:Column>
@@ -211,10 +218,7 @@
                                     text="Empresa"
                                 />
                                 <table:template>
-                                    <VBox>
                                         <m:Text text="{CompanyName}" visible="{= !${viewDetails>/bEditTableEnabled}}" />
-                                        <m:Input value="{CompanyName}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
                                 </table:template>
                             </table:Column>
                             <table:Column>
@@ -223,32 +227,16 @@
                                     text="Cargo"
                                 />
                                 <table:template>
-                                    <VBox>
                                         <m:Text text="{JobTitle}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
-                                        <m:Input value="{JobTitle}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
                                 </table:template>
                             </table:Column>
                             <table:Column>
                                 <m:Label
                                     design="Bold"
-                                    text="Grupo de acesso"
+                                    text="Grupo selecionado"
                                 />
                                 <table:template>
-                                 <VBox>
                                         <m:Text text="{AccessGroup}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
-                                        <Select
-                                            id="accessGroupSelect"
-                                            width="100%"
-                                            forceSelection="false"
-                                            selectedKey="{AccessGroup}"
-                                            autoAdjustWidth="false"
-                                            visible="{viewDetails>/bEditTableEnabled}"
-                                            >
-                                            <core:Item key="Cliente" text="Cliente" />
-                                            <core:Item key="Administrador" text="Administrador" />
-                                        </Select>
-                                    </VBox>
                                 </table:template>
                             </table:Column>
                             <table:Column>
@@ -257,10 +245,7 @@
                                     text="E-mail"
                                 />
                                 <table:template>
-                                    <VBox>
                                         <m:Text text="{Email}" wrapping="false" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
-                                        <m:Input value="{Email}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
                                 </table:template>
                             </table:Column>
                             <table:Column>
@@ -269,20 +254,7 @@
                                     text="CPF"
                                 />
                                 <table:template>
-                                    <VBox>
-                                        <m:Text text="{CPF}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
-                                        <m:Input value="{CPF}" visible="{viewDetails>/bEditTableEnabled}" />
-                                    </VBox>
-                                </table:template>
-                            </table:Column>
-                            <table:Column width="3.1rem">
-                                <table:template>
-                                    <m:Button
-                                        id="DeleteUserDialog"
-                                        type="Transparent"
-                                        icon="sap-icon://delete"
-                                        press=".onOpenDeleteDialog"
-                                    />
+                                     <m:Text text="{CPF}" visible="{= !${viewDetails>/bEditTableEnabled}}"/>
                                 </table:template>
                             </table:Column>
                         </table:columns>
@@ -297,21 +269,16 @@
                 <Button
                     id="CreateUserManuallyDialog"
                     type="Emphasized"
-                    text="Inserir Usuário manualmente"
-                    press=".onOpenDialog"
+                    icon="sap-icon://excel-attachment"
+                    iconFirst="false"
+                    text="Exportar Excel"
+                    press=".exportExcelFile"
                 />
                 <Button
                     id="ConfirmUserImportDialog"
                     type="Emphasized"
-                    text="Confirmar importação"
-                    press=".onOpenDialog"
-                />
-                <Button
-                    id="CancelUserImportDialog"
-                    class="sapUiTinyMarginEnd"
-                    type="Ghost"
-                    text="Cancelar importação"
-                    press=".onOpenDialog"
+                    text="Adicionar Usuários"
+                    press=".onNavToRegisterNewUsers"
                 />
             </OverflowToolbar>
         </footer>

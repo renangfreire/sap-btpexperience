@@ -6,7 +6,107 @@
     xmlns:u="sap.ui.unified"
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout">
-    <Page id="page" busyIndicatorDelay="1000">
+    <Page id="page" showHeader="false">
+        <IconTabBar
+            id="idIconTabBarMulti"
+            headerBackgroundDesign="Solid"
+            selectedKey="RouteRegistrationRequests"
+            select=".onListSelect"
+            class="sapUiNoContentPadding"
+            >
+            <items>
+                <IconTabFilter
+                    id="iconTabRegistrations"
+                    text="Cadastro"
+                    >
+                    <items>
+                        <IconTabFilter
+                            id="RegisterNewUsers"
+                            key="RouteRegisterNewUsers"
+                            text="Novos Usuários"
+                            >
+                            </IconTabFilter>
+                        <IconTabFilter
+                            key="RouteRegistrationRequests"
+                            text="Aprovação"
+                            />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    key="administration"
+                    text="Administração"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Evento"
+                        />
+                        <IconTabFilter
+                            text="Agendas"
+                        />
+                        <IconTabFilter
+                            text="Sessões"
+                        />
+                        <IconTabFilter
+                            text="Empresas"
+                        />
+                        <IconTabFilter
+                            text="Pacotes"
+                        />
+                        <IconTabFilter
+                            text="Repositórios"
+                        />
+                        <IconTabFilter
+                            text="Usuários"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarGamification"
+                    key="Gamification"
+                    text="Gamificação"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Tarefas"
+                        />
+                        <IconTabFilter
+                            text="Trilhas"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarReports"
+                    key="Reports"
+                    text="Relatórios"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Ranking"
+                        />
+                        <IconTabFilter
+                            text="Check in"
+                        />
+                        <IconTabFilter
+                            text="Feedbacks"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarRequest"
+                    key="Reports"
+                    text="Home"
+                >
+                <items>
+                    <IconTabFilter
+                        id="Home"
+                        key="RouteHome"
+                        text="Requisitar Cadastro"
+                    />
+                    </items>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
+
     <ObjectHeader
             title="Cadastro"
             responsive="true"
@@ -38,24 +138,20 @@
 
                                      <VBox >
                                         <Label text="Empresas" />
-                                        <Select autoAdjustWidth="true" selectedKey="{filters>/companySelected}" >
-                                            <core:Item key="" enabled="false" text="Selecionar empresas"></core:Item>
-                                            <core:Item key="SAP" text="SAP"></core:Item>
-                                            <core:Item key="Lab2dev" text="Lab2dev"></core:Item>
+                                        <Select width="11.5rem" selectedKey="teste" forceSelection="true" items="{viewDetails>/allCompanyNames}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
                                         </Select>
                                     </VBox>
                                     <VBox >
                                         <Label text="Cargos" />
-                                        <Select autoAdjustWidth="true" selectedKey="{filters>/jobTitleSelected}">
-                                            <core:Item key="" enabled="false" text="Selecionar cargos"></core:Item>
-                                            <core:Item key="Gerente" text="Gerente"></core:Item>
+                                        <Select width="11.5rem" selectedKey="{filters>/jobTitleSelected}" items="{viewDetails>/allJobTitles}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
                                         </Select>
                                     </VBox>
                                     <VBox >
                                         <Label text="Grupo" />
-                                        <Select autoAdjustWidth="true" selectedKey="{filters>/accessGroupSelected}">
-                                            <core:Item key="" enabled="false" text="Selecionar grupos"></core:Item>
-                                            <core:Item key="Administrador" text="Administrador"></core:Item>
+                                        <Select width="11.5rem" selectedKey="{filters>/accessGroupSelected}" items="{viewDetails>/allAccessGroups}">
+                                            <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
                                         </Select>
                                     </VBox>
                                     <HBox height="100%" alignItems="End">
@@ -95,15 +191,17 @@
                                     liveChange=".onSearch"
                                 />
                                 <Button
+                                    id="ApprovedUserDialog"
                                     type="Accept"
                                     text="Confirmar"
-                                    press=""
+                                    press="onOpenApproveDialog"
                                     visible="{= !${viewDetails>/bEditTableEnabled}}"
                                 />
                                 <Button
+                                    id="DisapprovedUserDialog"
                                     type="Reject"
                                     text="Reprovar"
-                                    press="onDisapproveRegistration"
+                                    press="onOpenDisapproveDialog"
                                     visible="{= !${viewDetails>/bEditTableEnabled}}"
                                 />
                                 <Button

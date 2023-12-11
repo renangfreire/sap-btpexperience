@@ -22,6 +22,8 @@ sap.ui.define(
                 onInit: function () {
                     const oModelPromise = models.getJsonData();
 
+                    this.oRouter = this.getOwnerComponent().getRouter();
+
                     oModelPromise
                         .then((oData) => {
                             const oModel = new JSONModel(oData);
@@ -37,8 +39,6 @@ sap.ui.define(
                             this.getView().setModel(oModel);
 
                             this.getView().setModel(oModelViewDetails, "viewDetails")
-
-
 
                             this._setTotalRegistrations(oData["Users-PreRegister"]);
                         })
@@ -140,7 +140,7 @@ sap.ui.define(
                                 new Filter("FullName", FilterOperator.Contains, sQuery),
                                 new Filter("Email", FilterOperator.Contains, sQuery),
                                 new Filter("CPF", (oVal) =>
-                                    oVal.split("-").join("").includes(sQuery)
+                                    oVal.split(/[.-]/g).join("").includes(sQuery)
                                 ),
                             ],
                         });

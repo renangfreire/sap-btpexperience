@@ -30,7 +30,7 @@
                             autoAdjustWidth="false">
                             <core:Item enabled="false" key="" text="Selecione uma chave" />
                             <core:Item key="Cliente" text="Cliente" />
-                            <core:Item key="Administrator" text="Administrador" />
+                            <core:Item key="Administrador" text="Administrador" />
                         </Select>
                     </VBox>
                 </l:VerticalLayout>

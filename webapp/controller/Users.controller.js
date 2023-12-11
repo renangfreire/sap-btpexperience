@@ -11,21 +11,13 @@ sap.ui.define([
         "use strict";
         const EdmType = exportLibrary.EdmType
 
-        return Controller.extend("com.lab2dev.finalprojectprodev.controller.RegistrationRequests", {
-            DialogTypes: [
-                "ApprovedUserDialog",
-                "DisapprovedUserDialog",
-            ],
+        return Controller.extend("com.lab2dev.finalprojectprodev.controller.Users", {
             onInit: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 const oData = models.getRegistrationRequests()
 
                 const oModelViewDetails = new JSONModel({
-                    // tableVisible: Object.keys(oData).length > 0,
-                    deleteSelectedRow: null,
-                    totalRequests: null,
-                    bEditTableEnabled: false,
-                    // Lembrar que preciso colocar essas 3 variaveis no projeto
+                    totalUsers: null,
                     allCompanyNames: this._getAllCompanyNames(oData),
                     allJobTitles: this._getAllJobTitles(oData),
                     allAccessGroups: this._getAllAccessGroups(oData),
@@ -40,7 +32,7 @@ sap.ui.define([
 
                 const oModel = new JSONModel(oData)
 
-                oModelViewDetails.setProperty("/totalRequests", oData.newRequests.length)
+                oModelViewDetails.setProperty("/totalUsers", oData.newRequests.length)
 
                 this.getView().setModel(oModel)
                 this.getView().setModel(oModelViewDetails, "viewDetails")
@@ -87,7 +79,7 @@ sap.ui.define([
             },
             _setTotalRegistrationRequests: function(aData) {
                 this.getView().getModel("viewDetails")
-                .setProperty("/totalRequests", aData.length)
+                .setProperty("/totalUsers", aData.length)
             },
             onEnableEdit: function(){
                 this._toggleEdit()

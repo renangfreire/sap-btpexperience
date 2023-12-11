@@ -5,6 +5,105 @@
     xmlns:l="sap.ui.layout"
     width="100%">
     <Page id="pageController" class="sap-xp-backgroundImage sapUiNoMargin" showHeader="false">
+        <IconTabBar
+                id="idIconTabBarMulti"
+                headerBackgroundDesign="Solid"
+                selectedKey="RouteHome"
+                select=".onListSelect"
+                class="sapUiNoContentPadding"
+                >
+            <items>
+                <IconTabFilter
+                    id="iconTabRegistrations"
+                    text="Cadastro"
+                    >
+                    <items>
+                        <IconTabFilter
+                            id="RegisterNewUsers"
+                            key="RouteRegisterNewUsers"
+                            text="Novos Usuários"
+                            >
+                            </IconTabFilter>
+                        <IconTabFilter
+                            key="RouteRegistrationRequests"
+                            text="Aprovação"
+                            />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    key="administration"
+                    text="Administração"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Evento"
+                        />
+                        <IconTabFilter
+                            text="Agendas"
+                        />
+                        <IconTabFilter
+                            text="Sessões"
+                        />
+                        <IconTabFilter
+                            text="Empresas"
+                        />
+                        <IconTabFilter
+                            text="Pacotes"
+                        />
+                        <IconTabFilter
+                            text="Repositórios"
+                        />
+                        <IconTabFilter
+                            text="Usuários"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarGamification"
+                    key="Gamification"
+                    text="Gamificação"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Tarefas"
+                        />
+                        <IconTabFilter
+                            text="Trilhas"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarReports"
+                    key="Reports"
+                    text="Relatórios"
+                    >
+                    <items>
+                        <IconTabFilter
+                            text="Ranking"
+                        />
+                        <IconTabFilter
+                            text="Check in"
+                        />
+                        <IconTabFilter
+                            text="Feedbacks"
+                        />
+                    </items>
+                </IconTabFilter>
+                <IconTabFilter
+                    id="tabBarRequest"
+                    key="Reports"
+                    text="Home"
+                >
+                <items>
+                    <IconTabFilter
+                        id="Home"
+                        key="RouteHome"
+                        text="Requisitar Cadastro"
+                    />
+                    </items>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
        <HBox justifyContent="Center" alignItems="Center" height="100%" fitContainer="true">
             <VBox class="sapUiResponsiveContentPaddindg sap-xp-rounding" backgroundDesign="Solid">
                 <VBox justifyContent="Center" alignItems="Center" height="3rem">
