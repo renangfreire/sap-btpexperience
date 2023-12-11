@@ -173,7 +173,7 @@
                 <HBox height="100%">
                     <table:Table
                         id="RegistrationRequestsTable"
-                        rows="{/newRequests}"
+                        rows="{/Users}"
                         selectionMode="MultiToggle"
                         paste="onPaste"
                         rowMode="Auto"

@@ -54,6 +54,7 @@
                             text="Repositórios"
                         />
                         <IconTabFilter
+                            key="RouteUsers"
                             text="Usuários"
                         />
                     </items>
@@ -151,9 +152,9 @@
                     </VBox>
                     <VBox justifyContent="End" class="sapUiSmallMarginTop" alignItems="End">
                         <Button 
-                            id="CreateUser"
+                            id="RequestRegistrationPopup"
                             type="Emphasized"
-                            text="Cadastrar usuário"
+                            text="Cadastro"
                             press=".onSendForm"
                             />
                     </VBox>

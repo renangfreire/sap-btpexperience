@@ -18,6 +18,10 @@ sap.ui.define([
             ],
             onInit: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
+            
+                this.oRouter.getRoute("RouteRegistrationRequests").attachPatternMatched(this._onRouteMatched, this)                
+            },
+            _onRouteMatched: function(){
                 const oData = models.getRegistrationRequests()
 
                 const oModelViewDetails = new JSONModel({
@@ -57,7 +61,7 @@ sap.ui.define([
                 this.getView().setModel(oModel, 'disapproveModel')
                 this.onOpenDialog(oEvent)
             },
-            onDisapproveRegistration: function(oEvent) {
+            onDisapproveRegistration: function() {
                 const {aSelectedIndices} = this.getView().getModel("disapproveModel").getData()
 
                 const aData = models.getRegistrationRequests().newRequests
@@ -82,6 +86,28 @@ sap.ui.define([
                 this.getView().setModel(oModel, 'approveModel')
                 this.onOpenDialog(oEvent)
             },
+            onApproveRegistration: function(){
+                const { aSelectedIndices } = this.getView().getModel("approveModel").getData()
+                const oData = this.getView().getModel().getData()
+                const aRequests = oData.newRequests
+
+                const aSelectedUsers = aRequests.filter((el, i) => aSelectedIndices.some((index) => index === i))
+
+                const aUsersRemaining = aRequests.filter((el, i) => !aSelectedIndices.some((index) => index === i))
+
+                this._sendUsersToStorage(aSelectedUsers)
+
+                // Updating Model
+                const oDataRemaining = {
+                    newRequests: aUsersRemaining
+                }
+
+                models.setRegistrationRequests(oDataRemaining)
+                this.updateDataModel(oDataRemaining)
+
+                this._setTotalRegistrationRequests(aUsersRemaining)
+                this.onCloseDialog()
+            },
             _getTotalRegistrationRequests: function(){
 
             },
@@ -97,6 +123,12 @@ sap.ui.define([
 
                 const oData = this.getView().getModel().getData()
                 models.setRegistrationRequests(oData)
+
+                const oModelDetails = this.getView().getModel("viewDetails")
+
+                oModelDetails.setProperty("/allCompanyNames", this._getAllCompanyNames(oData))
+                oModelDetails.setProperty("/allJobTitles", this._getAllJobTitles(oData))
+                oModelDetails.setProperty("/allAccessGroups", this._getAllAccessGroups(oData))
             },
             _toggleEdit(){
                 const oModel = this.getView().getModel("viewDetails")
@@ -104,7 +136,6 @@ sap.ui.define([
                 oModel.setProperty("/bEditTableEnabled", !actualHandle)
             },
             createColumnConfig: function(){
-                // '2023-12-09'
                 return [{
                     label: "ID",
                     property: "ID",
@@ -253,19 +284,19 @@ sap.ui.define([
                 oBinding.filter([])
             },
             _getAllCompanyNames: function(oData){
-                const aCompanies = oData.newRequests.map(request => request.CompanyName)
+                const aCompanies = oData.newRequests?.map(request => request.CompanyName)
                 const setCompanies = new Set(aCompanies)
 
                 return [...setCompanies]
             },
             _getAllJobTitles: function(oData){
-                const aJobTitles = oData.newRequests.map(request => request.JobTitle)
+                const aJobTitles = oData.newRequests?.map(request => request.JobTitle)
                 const setJobTitle = new Set(aJobTitles)
 
                 return [...setJobTitle]
             },
             _getAllAccessGroups: function(oData){
-                const aAccessGroups = oData.newRequests.map(request => request.AccessGroup)
+                const aAccessGroups = oData.newRequests?.map(request => request.AccessGroup)
                 const setAccessGroup = new Set(aAccessGroups)
 
                 return [...setAccessGroup]

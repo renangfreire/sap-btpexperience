@@ -22,12 +22,15 @@ sap.ui.define(
                 onInit: function () {
                     this.oRouter = this.getOwnerComponent().getRouter();
                     
+                    this.oRouter.getRoute("RouteRegisterNewUsers").attachPatternMatched(this._onRouteMatched, this) 
+                },
+                _onRouteMatched: function(){
                     const oData = this._verifyingTimeCache()
 
                     const oModel = new JSONModel(oData);
 
                     const oModelViewDetails = new JSONModel({
-                            tableVisible: Object.keys(oData).length > 0,
+                            tableVisible: Object.keys(oData["Users-PreRegister"]).length > 0,
                             deleteSelectedRow: null,
                             totalRegistrations: null,
                             bEditTableEnabled: false
@@ -42,7 +45,9 @@ sap.ui.define(
                     const oData = models._getTempImportUsers()
                     
                     if(!oData){
-                        return {}
+                        return {
+                            "Users-PreRegister": []
+                        }
                     } 
 
                     const timeNow = new Date();
@@ -50,6 +55,7 @@ sap.ui.define(
                     const pastMinutes = new Date(timeNow - new Date(oData.timeStamp)).getMinutes();
 
                     if(pastMinutes > 2){
+                        models._deleteTempImportUsers()
                         return {}
                     }
 
@@ -190,20 +196,31 @@ sap.ui.define(
                 onSendForm: function(oEvent){
                     const oModelForm = this.getView().getModel("formData").getData()
                     const oModel = this.getView().getModel()
+                    const oModelViewDetails = this.getView().getModel("viewDetails")
 
                     const oData = oModel.getData()["Users-PreRegister"]
 
-                    const aData = [...oData, {
+                    let aData = []
+
+                    if(oData){
+                        aData.push(...oData)
+                    }
+
+                    aData.push({
                         ...oModelForm,
                         ID: this._getTotalRegistrations() + 1
-                    }]
-
+                    })
+                    
                     const oDataChanged = {
                         "Users-PreRegister": aData}
 
                     oModel.setData(oDataChanged)
                     models._setTempImportUsers(oDataChanged)
                     this._setTotalRegistrations(aData)
+
+                    if(!oModelViewDetails.getProperty("/tableVisible")){
+                        oModelViewDetails.setProperty("/tableVisible", true)
+                    }
 
                   this.onCloseDialog(oEvent)
                 },
@@ -213,13 +230,19 @@ sap.ui.define(
 
                     oModel.setData({})
                     oViewDetailsModel.setProperty("/tableVisible", false)
+                    models._deleteTempImportUsers()
 
                     this.onCloseDialog()
                 },
                 onConfirmImport: function(){
                     const oData = this.getView().getModel().getData()
+                    const oViewDetailsModel = this.getView().getModel("viewDetails")
 
                     this._sendUsersToStorage(oData["Users-PreRegister"])
+
+                    models._deleteTempImportUsers()
+                    this.updateDataModel({"Users-PreRegister": []})
+                    oViewDetailsModel.setProperty("/tableVisible", false)
 
                     this.onCloseDialog()
                 },

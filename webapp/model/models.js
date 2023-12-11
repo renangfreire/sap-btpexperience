@@ -48,6 +48,9 @@ sap.ui.define([
                 
                 return JSON.parse(oData)
             },
+            _deleteTempImportUsers: function(){
+               this._localStorage.removeItem("TempUsers")
+            },
             getRegistrationRequests: function(){
                 const aData = this._localStorage.getItem("registrationRequests")
 
@@ -66,7 +69,7 @@ sap.ui.define([
             },
             getUsers: function(){
                 const oData =  this._localStorage.getItem("Users")
-                
+
                 if(!oData){
                     return {Users: []}
                 }

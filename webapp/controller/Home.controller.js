@@ -7,6 +7,9 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.lab2dev.finalprojectprodev.controller.Home", {
+            DialogTypes: [
+                "RequestRegistrationPopup"
+            ],
             onInit: function () {
                 const oData = {
                     ID: "",
@@ -42,8 +45,7 @@ sap.ui.define([
                 }
 
                 models.setRegistrationRequests(oDataUpdated)
-
-                this.oRouter.navTo("RouteRegisterNewUsers")
+                this.onOpenDialog(oEvent)
             }
         });
     });

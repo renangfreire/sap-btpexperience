@@ -97,6 +97,13 @@
           "target": [
             "RegistrationRequests"
           ]
+        },
+        {
+          "name": "RouteUsers",
+          "pattern": "/users",
+          "target": [
+            "Users"
+          ]
         }
         
       ],
@@ -116,6 +123,13 @@
           "viewName": "RegisterNewUsers"
         },
         "RegistrationRequests": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "RegistrationRequests",
+          "viewName": "RegistrationRequests"
+        },
+        "Users": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,

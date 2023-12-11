@@ -1,0 +1,30 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Dialog
+        id="RequestRegistrationPopup"
+        title="Sua solicitação de cadastro foi para análise!"
+    >
+       <content>
+         <VBox class="sapMPageBgStandard ">
+            <VBox justifyContent="Center" class="sapUiSmallMargin sap-xp-rounding"  alignItems="Center" backgroundDesign="Solid">
+                <HBox direction="Column" class="sapUiMediumMargin" alignItems="Center" justifyContent="Center">
+                    <Text 
+                        class="sapUiMSmallMargin"
+                        wrapping="true" 
+                        textAlign="Center"
+                        text="Sua solicitação será analisada e &#13;&#10; logo você receberá em seu e-mail &#13;&#10; a confirmação ou rejeição do seu &#13;&#10; cadastro" />
+                </HBox>          
+            </VBox>
+        </VBox>
+       </content>
+       <footer>
+            <OverflowToolbar >
+                <ToolbarSpacer ></ToolbarSpacer>
+                <Button text="OK" type="Emphasized" press="onCloseDialog"></Button>
+            </OverflowToolbar>
+       </footer>
+    </Dialog>
+</core:FragmentDefinition>

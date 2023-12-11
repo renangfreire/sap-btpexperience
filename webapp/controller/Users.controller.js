@@ -14,7 +14,11 @@ sap.ui.define([
         return Controller.extend("com.lab2dev.finalprojectprodev.controller.Users", {
             onInit: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
-                const oData = models.getRegistrationRequests()
+                
+                this.oRouter.getRoute("RouteUsers").attachPatternMatched(this._onRouteMatched, this)
+            },
+            _onRouteMatched: function(){
+                const oData = models.getUsers()
 
                 const oModelViewDetails = new JSONModel({
                     totalUsers: null,
@@ -32,7 +36,7 @@ sap.ui.define([
 
                 const oModel = new JSONModel(oData)
 
-                oModelViewDetails.setProperty("/totalUsers", oData.newRequests.length)
+                oModelViewDetails.setProperty("/totalUsers", oData.Users?.length)
 
                 this.getView().setModel(oModel)
                 this.getView().setModel(oModelViewDetails, "viewDetails")
@@ -41,62 +45,13 @@ sap.ui.define([
             onNavToRegisterNewUsers: function() {
                 this.oRouter.navTo("RouteRegisterNewUsers")
             },
-            onOpenDisapproveDialog: function(oEvent){
-                const aSelectedIndices = this.byId("RegistrationRequestsTable").getSelectedIndices()
-
-                const oModel = new JSONModel({aSelectedIndices})
-
-                this.getView().setModel(oModel, 'disapproveModel')
-                this.onOpenDialog(oEvent)
-            },
-            onDisapproveRegistration: function(oEvent) {
-                const {aSelectedIndices} = this.getView().getModel("disapproveModel").getData()
-
-                const aData = models.getRegistrationRequests().newRequests
-            
-                const aDataFiltered = aData.filter((el, index) => !aSelectedIndices.some((i) => index === i))
-                const oData = {
-                    newRequests: aDataFiltered
-                }
-
-                models.setRegistrationRequests(oData)
-                this.updateDataModel(oData)
-
-                this._setTotalRegistrationRequests(aDataFiltered)
-
-                this.onCloseDialog()
-            },
-            onOpenApproveDialog: function(oEvent){
-                const aSelectedIndices = this.byId("RegistrationRequestsTable").getSelectedIndices()
-
-                const oModel = new JSONModel({aSelectedIndices})
-
-                this.getView().setModel(oModel, 'approveModel')
-                this.onOpenDialog(oEvent)
-            },
-            _getTotalRegistrationRequests: function(){
-
-            },
-            _setTotalRegistrationRequests: function(aData) {
-                this.getView().getModel("viewDetails")
-                .setProperty("/totalUsers", aData.length)
-            },
-            onEnableEdit: function(){
-                this._toggleEdit()
-            },
             onConfirmEdit: function(){
                 this._toggleEdit()
 
                 const oData = this.getView().getModel().getData()
                 models.setRegistrationRequests(oData)
             },
-            _toggleEdit(){
-                const oModel = this.getView().getModel("viewDetails")
-                const actualHandle = oModel.getProperty("/bEditTableEnabled")
-                oModel.setProperty("/bEditTableEnabled", !actualHandle)
-            },
             createColumnConfig: function(){
-                // '2023-12-09'
                 return [{
                     label: "ID",
                     property: "ID",
@@ -132,12 +87,6 @@ sap.ui.define([
                     label: "CPF",
                     property: "CPF",
                     width: "18"
-                },
-                {
-                    label: "Data de solicitação",
-                    property: "requestDate",
-                    type: EdmType.Date,
-                    width: "10"
                 }
             ]
             },
@@ -149,7 +98,7 @@ sap.ui.define([
                 const oSettings = {
                     workbook: {columns: aCols},
                     dataSource: oBinding,
-                    fileName: "Users Requests Table",
+                    fileName: "Users Table",
                 }
 
                 const oSheet = new Spreadsheet(oSettings)
@@ -245,19 +194,19 @@ sap.ui.define([
                 oBinding.filter([])
             },
             _getAllCompanyNames: function(oData){
-                const aCompanies = oData.newRequests.map(request => request.CompanyName)
+                const aCompanies = oData.Users?.map(request => request.CompanyName)
                 const setCompanies = new Set(aCompanies)
 
                 return [...setCompanies]
             },
             _getAllJobTitles: function(oData){
-                const aJobTitles = oData.newRequests.map(request => request.JobTitle)
+                const aJobTitles = oData.Users?.map(request => request.JobTitle)
                 const setJobTitle = new Set(aJobTitles)
 
                 return [...setJobTitle]
             },
             _getAllAccessGroups: function(oData){
-                const aAccessGroups = oData.newRequests.map(request => request.AccessGroup)
+                const aAccessGroups = oData.Users?.map(request => request.AccessGroup)
                 const setAccessGroup = new Set(aAccessGroups)
 
                 return [...setAccessGroup]

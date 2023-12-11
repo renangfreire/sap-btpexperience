@@ -20,7 +20,7 @@
 			<OverflowToolbar >
                 <ToolbarSpacer ></ToolbarSpacer>
                 <Button text="Cancelar" press="onCloseDialog" type="Default"></Button>
-                <Button text="Confirmar Importação" type="Accept"></Button>
+                <Button text="Confirmar Importação" press="onApproveRegistration" type="Accept"></Button>
             </OverflowToolbar>
 		</footer>
     </Dialog>
