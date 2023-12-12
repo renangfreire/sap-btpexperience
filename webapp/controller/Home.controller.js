@@ -11,6 +11,15 @@ sap.ui.define([
                 "RequestRegistrationPopup"
             ],
             onInit: function () {
+                
+
+                this.oRouter = this.getOwnerComponent().getRouter();
+
+                this.oRouter.getRoute("RouteHome").attachPatternMatched(this._onRouteMatched, this)
+
+                
+            },
+            _onRouteMatched: function(){
                 const oData = {
                     ID: "",
                     FullName: "",
@@ -21,11 +30,15 @@ sap.ui.define([
                     Email: "",
                     CPF: ""
                   }
+
+                  const oViewDetailsModel = new JSONModel({
+                    selectedPage: "RouteHome"
+                  })
+
                 const oModel = new JSONModel(oData);
 
-                this.oRouter = this.getOwnerComponent().getRouter();
-
                 this.getView().setModel(oModel, "formData")
+                this.getView().setModel(oViewDetailsModel, "viewDetails")
             },
             onAfterRendering: function () {
                 // Pecado capital do UI5, porém to usando para um bem maior!

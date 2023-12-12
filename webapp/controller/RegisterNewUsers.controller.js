@@ -32,14 +32,21 @@ sap.ui.define(
                     const oModelViewDetails = new JSONModel({
                             tableVisible: Object.keys(oData["Users-PreRegister"]).length > 0,
                             deleteSelectedRow: null,
-                            totalRegistrations: null,
-                            bEditTableEnabled: false
+                            totalRegistrations: oData["Users-PreRegister"]?.length || null,
+                            bEditTableEnabled: false,
+                            selectedPage: "RouteRegisterNewUsers",
                         })
 
 
                     this.getView().setModel(oModel);
 
                     this.getView().setModel(oModelViewDetails, "viewDetails")
+
+                    if(oData["Users-PreRegister"].length > 0){
+                        // Atualizando TIMESTAMP do cache
+                        models._setTempImportUsers(oData)
+                    }
+
                 },
                 _verifyingTimeCache: function(){
                     const oData = models._getTempImportUsers()
@@ -54,11 +61,15 @@ sap.ui.define(
 
                     const pastMinutes = new Date(timeNow - new Date(oData.timeStamp)).getMinutes();
 
-                    if(pastMinutes > 2){
+                    // Pensar se deveria atualizar o TIMESTAMP da page toda vez que o usuário entrar
+                    if(pastMinutes >= 1){
                         models._deleteTempImportUsers()
-                        return {}
+                        return {
+                            "Users-PreRegister": []
+                        }
                     }
 
+                    
                     return oData
 
                 },
@@ -171,6 +182,7 @@ sap.ui.define(
                     this._setTotalRegistrations(rows.aIndices);
                 },
                 _setTotalRegistrations: function (aData) {
+                    debugger
                     const oModel = this.getView().getModel("viewDetails");
 
                     oModel.setProperty("/totalRegistrations", aData.length);

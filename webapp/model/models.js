@@ -38,7 +38,7 @@ sap.ui.define([
             _setTempImportUsers: async function(oUsers){
                 const oData = {
                     ...oUsers,
-                    timeStamp: new Date()
+                    timestamp: new Date()
                 }
 
                 this._localStorage.setItem("TempUsers", JSON.stringify(oData))

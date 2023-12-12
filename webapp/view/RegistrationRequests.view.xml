@@ -10,7 +10,7 @@
         <IconTabBar
             id="idIconTabBarMulti"
             headerBackgroundDesign="Solid"
-            selectedKey="RouteRegistrationRequests"
+            selectedKey="{viewDetails>/selectedPage}"
             select=".onListSelect"
             class="sapUiNoContentPadding"
             >
@@ -139,7 +139,7 @@
 
                                      <VBox >
                                         <Label text="Empresas" />
-                                        <Select width="11.5rem" selectedKey="teste" forceSelection="true" items="{viewDetails>/allCompanyNames}">
+                                        <Select width="11.5rem" selectedKey="{filters>/companySelected}" forceSelection="true" items="{viewDetails>/allCompanyNames}">
                                             <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
                                         </Select>
                                     </VBox>

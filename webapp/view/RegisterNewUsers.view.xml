@@ -16,7 +16,7 @@
         <IconTabBar
                 id="idIconTabBarMulti"
                 headerBackgroundDesign="Solid"
-                selectedKey="RouteRegisterNewUsers"
+                selectedKey="{viewDetails>/selectedPage}"
                 select=".onListSelect"
                 class="sapUiNoContentPadding"
                 >

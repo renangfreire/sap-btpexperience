@@ -25,6 +25,7 @@ sap.ui.define([
                     allCompanyNames: this._getAllCompanyNames(oData),
                     allJobTitles: this._getAllJobTitles(oData),
                     allAccessGroups: this._getAllAccessGroups(oData),
+                    selectedPage: "RouteUsers",
                 })
 
                 const oFiltersModel = new JSONModel({

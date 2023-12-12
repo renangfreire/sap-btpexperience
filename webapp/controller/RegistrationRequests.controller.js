@@ -29,10 +29,10 @@ sap.ui.define([
                     deleteSelectedRow: null,
                     totalRequests: null,
                     bEditTableEnabled: false,
-                    // Lembrar que preciso colocar essas 3 variaveis no projeto
                     allCompanyNames: this._getAllCompanyNames(oData),
                     allJobTitles: this._getAllJobTitles(oData),
                     allAccessGroups: this._getAllAccessGroups(oData),
+                    selectedPage: "RouteRegistrationRequests",
                 })
 
                 const oFiltersModel = new JSONModel({
@@ -255,8 +255,6 @@ sap.ui.define([
 
                     aFilters.push(oFilter)
                 }
-
-                console.log(aFilters)
 
                 const oFilters = new Filter({
                     filters: aFilters,
