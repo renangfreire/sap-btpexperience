@@ -20,21 +20,6 @@ sap.ui.define([
                 oModel.setDefaultBindingMode("OneWay");
                 return oModel;
              },
-            getJsonData: function(){
-                    try {
-                        const oData = this._getUsersLocalStorage() || {}
-
-                        return new Promise(
-                            function(resolve, reject) {
-                                if(oData){
-                                    resolve(oData)
-                                }
-                                    reject("Cannot find data")
-                                })
-                    } catch (error) {
-                        console.log("Couldn't load JSON Data Service")
-                    }
-            },
             _setTempImportUsers: async function(oUsers){
                 const oData = {
                     ...oUsers,

@@ -59,7 +59,7 @@ sap.ui.define(
 
                     const timeNow = new Date();
 
-                    const pastMinutes = new Date(timeNow - new Date(oData.timeStamp)).getMinutes();
+                    const pastMinutes = new Date(timeNow - new Date(oData.timestamp)).getMinutes();
 
                     // Pensar se deveria atualizar o TIMESTAMP da page toda vez que o usuário entrar
                     if(pastMinutes >= 1){
@@ -68,8 +68,6 @@ sap.ui.define(
                             "Users-PreRegister": []
                         }
                     }
-
-                    
                     return oData
 
                 },
@@ -182,7 +180,6 @@ sap.ui.define(
                     this._setTotalRegistrations(rows.aIndices);
                 },
                 _setTotalRegistrations: function (aData) {
-                    debugger
                     const oModel = this.getView().getModel("viewDetails");
 
                     oModel.setProperty("/totalRegistrations", aData.length);
@@ -217,10 +214,10 @@ sap.ui.define(
                     if(oData){
                         aData.push(...oData)
                     }
-
+                
                     aData.push({
                         ...oModelForm,
-                        ID: this._getTotalRegistrations() + 1
+                        ID: oModel.getData()["Users-PreRegister"].at(-1).ID + 1
                     })
                     
                     const oDataChanged = {

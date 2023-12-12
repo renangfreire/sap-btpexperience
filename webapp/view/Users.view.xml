@@ -146,6 +146,7 @@
                                     <VBox >
                                         <Label text="Cargos" />
                                         <Select width="11.5rem" selectedKey="{filters>/jobTitleSelected}" items="{viewDetails>/allJobTitles}">
+                                            <core:Item key="Teste" text="Teste"></core:Item>
                                             <core:Item key="{viewDetails>}" text="{viewDetails>}"></core:Item>
                                         </Select>
                                     </VBox>
@@ -172,11 +173,12 @@
             >
                 <HBox height="100%">
                     <table:Table
-                        id="RegistrationRequestsTable"
+                        id="UsersTable"
                         rows="{/Users}"
                         selectionMode="MultiToggle"
                         paste="onPaste"
                         rowMode="Auto"
+                        
                     >
                         <table:extension>
                             <m:OverflowToolbar height="3rem">

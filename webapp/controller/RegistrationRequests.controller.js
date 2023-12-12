@@ -219,6 +219,8 @@ sap.ui.define([
                 const oRows = oTable.getBinding("rows")
 
                 oRows.filter(aFilters)
+
+                this._setTotalRegistrationRequests(oRows.getLength())
             },
             onApplyFilters: function() {
                 const oFiltersData = this.getView().getModel("filters").getData()
@@ -298,6 +300,11 @@ sap.ui.define([
                 const setAccessGroup = new Set(aAccessGroups)
 
                 return [...setAccessGroup]
+            },
+            _setTotalRegistrationRequests: function(iData){
+                const oModel = this.getView().getModel("viewDetails")
+
+                oModel.setProperty("/totalRequests", iData)
             }
         });
     });

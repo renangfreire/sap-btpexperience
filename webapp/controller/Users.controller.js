@@ -92,7 +92,7 @@ sap.ui.define([
             ]
             },
             exportExcelFile: function(){
-                const oTable = this.byId("RegistrationRequestsTable")
+                const oTable = this.byId("UsersTable")
                 const oBinding = oTable.getBinding("rows");
                 const aCols = this.createColumnConfig()
 
@@ -126,10 +126,12 @@ sap.ui.define([
                     aFilters.push(oFilter)
                 }
 
-                const oTable = this.byId("RegistrationRequestsTable")
+                const oTable = this.byId("UsersTable")
                 const oRows = oTable.getBinding("rows")
 
                 oRows.filter(aFilters)
+                
+                this._setTotalUsers(oRows.getLength())
             },
             onApplyFilters: function() {
                 const oFiltersData = this.getView().getModel("filters").getData()
@@ -167,14 +169,12 @@ sap.ui.define([
                     aFilters.push(oFilter)
                 }
 
-                console.log(aFilters)
-
                 const oFilters = new Filter({
                     filters: aFilters,
                     and: true
                 })
 
-                const oTable = this.byId("RegistrationRequestsTable")
+                const oTable = this.byId("UsersTable")
                 const oBinding = oTable.getBinding("rows")
 
                 oBinding.filter([oFilters])
@@ -189,7 +189,7 @@ sap.ui.define([
 
                 this.getView().getModel("filters").setData(oDataRedefined)
 
-                const oTable = this.byId("RegistrationRequestsTable")
+                const oTable = this.byId("UsersTable")
                 const oBinding = oTable.getBinding("rows")
 
                 oBinding.filter([])
@@ -211,6 +211,11 @@ sap.ui.define([
                 const setAccessGroup = new Set(aAccessGroups)
 
                 return [...setAccessGroup]
+            },
+            _setTotalUsers(iData){
+                const oModel = this.getView().getModel("viewDetails");
+
+                oModel.setProperty("/totalUsers", iData);
             }
         });
     });
